@@ -4,12 +4,11 @@ public abstract class Animal { // Animal class is abstract and cannot be instant
 
     private String name;
     private String gender;
-    private int health;
+    protected static int health = 100;
 
-    public Animal(String name, String gender, int health){
+    public Animal(String name, String gender){
         this.name = name;
         this.gender = gender;
-        this.health = health;
     }
 
 }
