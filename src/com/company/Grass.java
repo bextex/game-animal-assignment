@@ -2,22 +2,16 @@ package com.company;
 
 public final class Grass extends Food {
 
-    private String name = "Grass";
-    private boolean grain = false;
-    private boolean meat = false;
-    private boolean vegetable = true;
+    public static String name = "Grass";
+    public static boolean grain = false;
+    public static boolean meat = false;
+    public static boolean vegetable = true;
 
-    public Grass(String name, boolean grain, boolean meat, boolean vegetable){
+    public Grass(){
         super(name, grain, meat, vegetable);
-        this.name = name;
-        this.grain = grain;
-        this.meat = meat;
-        this.vegetable = vegetable;
+        Grass.name = super.name;
+        Grass.grain = super.grain;
+        Grass.meat = super.meat;
+        Grass.vegetable = super.vegetable;
     }
-
-    public boolean grassAsFood(){
-        return true;
-    }
-
-
 }

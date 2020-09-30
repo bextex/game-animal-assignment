@@ -7,13 +7,14 @@ public class Cow extends Animal { // Cow inherent from Animal
     private boolean eatGrain = true;
     private boolean eatMeat = false;
     private boolean eatVegetable = true;
-    private int health;
+    private int currentHealth;
 
     public Cow(String name, String gender){
         super(name, gender);
         this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
         this.gender = gender.toLowerCase();
-        create(this.name, this.gender, Animal.health);
+        this.currentHealth = Animal.health;
+        create(this.name, this.gender, this.currentHealth);
     }
 
     // Testing to create a cow with health from superclass Animal
@@ -23,13 +24,13 @@ public class Cow extends Animal { // Cow inherent from Animal
     }
 
     // Testing if the cow can eat the food
-    public void eatsFood(Grass grain, Grass meat, Grass vegetable){
-        System.out.println("You want to feed " + this.name + " with " + Grass.class.getSimpleName());
-        /*if(eatGrain == grain || this.eatMeat == meat || this.eatVegetable == vegetable){
+    public void eatsFood(Food food){
+        System.out.println("You want to feed " + this.name + " with " + food.name.toLowerCase());
+        if(food.grain == eatGrain || food.meat == eatMeat || food.vegetable == eatVegetable){
             System.out.println("And " + this.name + " loves it.");
         } else{
             System.out.println(this.name + " doesn't like this food.");
-        }*/
+        }
     }
 
 }
