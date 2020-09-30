@@ -42,9 +42,30 @@ public class Game {
             }
             firstRound = false;
         }
+        // playersHoldin(Player player); // Presents the current players holdings
+        menu();
     }
 
+    public void playersHolding(Player player){
+        System.out.println(player.name + " you currently have ");
+        for(Animal a : Store.animals){
+            if(Store.animals.size() == 0){
+                System.out.println("You don't own any animals for now.");
+            }
+            System.out.println("The " + a.getClass().getSimpleName() + " " + a.name + " with health " + a.health);
+        }
+        for(Food f : Store.foods){ // kilo of each food???
+            if(Store.foods.size() == 0){
+                System.out.println("You don't own any food for now.");
+            }
+            System.out.println(f.kgFood + "kg of " + f.name);
+        }
 
+    }
+
+    public void menu(){
+        System.out.println("1. ");
+    }
 
     public void mating(Animal animal1, Animal animal2) throws Exception {
         if(animal1.getClass().getSimpleName().equals(animal2.getClass().getSimpleName())){
