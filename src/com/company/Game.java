@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -16,12 +17,17 @@ public class Game {
         System.out.println("Press ENTER when you're ready to start.");
         input.nextLine();
         System.out.println("Choose how many players you want to be (1-4)");
-        int numOfPlayers = input.nextInt();
-        setPlayers(numOfPlayers);
+        String players = input.nextLine(); // Make som sort of control so there cannot be more than 4 or less than 1 player
+        setPlayers(players);
     }
 
-    public void setPlayers(int numOfPlayers){
-
+    public void setPlayers(String players){
+        int numOfPlayers = Integer.parseInt(players);
+        for(int i = 1; i <= numOfPlayers; i++){
+            System.out.println("Type in the name of Player " + i + ":");
+            String player = input.nextLine();
+            new Player(player);
+        }
     }
 
 
