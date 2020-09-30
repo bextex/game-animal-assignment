@@ -8,6 +8,23 @@ public class Game {
     Scanner input = new Scanner(System.in);
 
 
+    public Game(){
+        System.out.println("Hello and welcome to the game PiggyBank!\n");
+        sleep(1000);
+        System.out.println("In this game you can play by yourself or with up to three friends.");
+        System.out.println("To make it extra fun, we - the game masters - will choose between 5 and 30 rounds so the game stops when you least expect it... Good luck!\n");
+        System.out.println("Press ENTER when you're ready to start.");
+        input.nextLine();
+        System.out.println("Choose how many players you want to be (1-4)");
+        int numOfPlayers = input.nextInt();
+        setPlayers(numOfPlayers);
+    }
+
+    public void setPlayers(int numOfPlayers){
+
+    }
+
+
 
     public void mating(Animal animal1, Animal animal2) throws Exception {
         if(animal1.getClass().getSimpleName().equals(animal2.getClass().getSimpleName())){
