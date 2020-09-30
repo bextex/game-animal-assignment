@@ -7,14 +7,14 @@ public class Ostrich extends Animal { // Ostrich inherent from Animal
     private boolean eatGrain = true;
     private boolean eatMeat = true;
     private boolean eatVegetable = true;
-    private int currentHealth;
+    private int health;
 
     public Ostrich(String name, String gender){
         super(name, gender);
         this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
         this.gender = gender.toLowerCase();
-        this.currentHealth = Animal.health;
-        create(this.name, this.gender, this.currentHealth);
+        this.health = super.health;
+        create(this.name, this.gender, this.health);
     }
 
     public void create(String name, String gender, int health){
