@@ -2,16 +2,18 @@ package com.company;
 
 public abstract class Food { // // Food class is abstract and cannot be instantiated
 
-    public String name;
-    public boolean grain;
-    public boolean meat;
-    public boolean vegetable;
+    protected String name;
+    protected boolean grain;
+    protected boolean meat;
+    protected boolean vegetable;
+    protected int pricePerKg;
 
-    public Food(String name, boolean grain, boolean meat, boolean vegetable){
+    public Food(String name, boolean grain, boolean meat, boolean vegetable, int pricePerKg){
         this.name = name;
         this.grain = grain;
         this.meat = meat;
         this.vegetable = vegetable;
+        this.pricePerKg = pricePerKg;
     }
 
 }
