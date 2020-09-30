@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         Cow carola = new Cow("carOLA", "male");
-        Cow kicki = new Cow("Kicki", "male");
+        Cow kicki = new Cow("Kicki", "female");
         Fish nemo = new Fish("nemo", "male");
         Horse leyla = new Horse("Leyla", "female");
         Rabbit snurre = new Rabbit("Snurre", "male");
