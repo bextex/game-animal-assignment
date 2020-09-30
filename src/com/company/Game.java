@@ -9,9 +9,10 @@ public class Game {
     Scanner input = new Scanner(System.in);
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
+    Player currentPlayer = Player.players.get(0);
 
 
-    public Game(){
+    public Game() throws Exception {
         System.out.println("Hello and welcome to the game PiggyBank!\n");
         sleep(500);
         System.out.println("In this game you can play by yourself or with up to three friends.");
@@ -22,7 +23,7 @@ public class Game {
         String playerNum = input.nextLine(); // -----Make som sort of control so there cannot be more than 4 or less than 1 player-----
         setPlayers(playerNum);
         sleep(500);
-        play(Player.players.get(0));
+        play();
     }
 
     public void setPlayers(String playerNum){
@@ -34,45 +35,78 @@ public class Game {
         }
     }
 
-    public void play(Player player){ // The main playing field where all choices will be made and continue until the game is over
+    public void play() throws Exception { // The main playing field where all choices will be made and continue until the game is over
+        currentPlayer = Player.players.get((Player.players.indexOf(currentPlayer) + 1 ) % Player.players.size());
+
+
         if(firstRound){
             System.out.print("Welcome ");
             for(Player p : Player.players){
                 System.out.println(p.name); // -----Fix formatting when welcoming the players!!!-----
             }
             firstRound = false;
+            round--;
         }
-        playersHolding(player); // Presents the current players holdings
+        playersHolding(currentPlayer); // Presents the current players holdings
         System.out.println("What is your next step?");
         menu();
         String nextStep = input.nextLine();
         switch (nextStep){
-            case "1" -> buyAnimal();
-            case "2" -> buyFood();
-            case "3" -> feedAnimal();
-            case "4" -> mateAnimal();
-            case "5" -> sellAnimal();
+            case "1" -> buyAnimal(currentPlayer);
+            case "2" -> buyFood(currentPlayer);
+            case "3" -> feedAnimal(currentPlayer);
+            case "4" -> mateAnimal(currentPlayer);
+            case "5" -> sellAnimal(currentPlayer);
             default -> System.out.println("That's not an option.");
         }
     }
 
-    public void buyAnimal(){
+    public void buyAnimal(Player player) throws Exception{
+        System.out.println("What animal would you like to buy? Cow, fish, horse, rabbit or ostrich?");
+        String choice = input.nextLine().toLowerCase();
+        System.out.println("Type the name of your animal.");
+        String animalName = input.nextLine();
+        System.out.println("Type in 'female' or 'male' for gender of your animal.");
+        String animalGender = input.nextLine();
+        if(choice.contains("cow")){
+            player.animals.add(new Cow(animalName, animalGender));
+        } else if(choice.contains("fish")){
+            player.animals.add(new Fish(animalName, animalGender));
+        } else if(choice.contains("horse")){
+            player.animals.add(new Horse(animalName, animalGender));
+        } else if(choice.contains("rabbit")){
+            player.animals.add(new Rabbit(animalName, animalGender));
+        } else if(choice.contains("ostrich")){
+            player.animals.add(new Ostrich(animalName, animalGender));
+        } else{
+            throw new Exception("Not valid.");
+        }
+    }
+
+    public void buyFood(Player player) throws Exception {
+        System.out.println("What food would you like to buy? Grass, corn or meat?");
+        String choice = input.nextLine().toLowerCase();
+        System.out.println("How much " + choice + " would you like to buy?");
+        if(choice.contains("grass")){
+            // add "grass" as food if not added, change kg of food the player have
+        } else if(choice.contains("corn")){
+            // add "grass" as food if not added, change kg of food the player have
+        } else if(choice.contains("meat")){
+            // add "grass" as food if not added, change kg of food the player have
+        } else{
+            throw new Exception("Not valid.");
+        }
+    }
+
+    public void feedAnimal(Player player){
 
     }
 
-    public void buyFood(){
+    public void mateAnimal(Player player){
 
     }
 
-    public void feedAnimal(){
-
-    }
-
-    public void mateAnimal(){
-
-    }
-
-    public void sellAnimal(){
+    public void sellAnimal(Player player){
 
     }
 
