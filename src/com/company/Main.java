@@ -11,15 +11,18 @@ public class Main {
         Ostrich ida = new Ostrich("ida", "female");
         System.out.println();
         Grass grass = new Grass();
-        carola.eatsFood(grass);
+        Corn corn = new Corn();
+        Meat meat = new Meat();
+
+        carola.eatsFood(meat);
         System.out.println();
         nemo.eatsFood(grass);
         System.out.println();
-        leyla.eatsFood(grass);
+        leyla.eatsFood(corn);
         System.out.println();
         snurre.eatsFood(grass);
         System.out.println();
-        ida.eatsFood(grass);
+        ida.eatsFood(meat);
 
 
     }
