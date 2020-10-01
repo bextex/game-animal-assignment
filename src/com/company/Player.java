@@ -34,8 +34,12 @@ public class Player {
             System.out.println("Cannot feed with food you don't have.");
         } else {
             int value = foods.get(choice);
-            int newValue = value - foodInKg;
-            foods.put(choice, newValue);
+            if(value < foodInKg){
+                System.out.println("You cannot feed with " + foodInKg + " you only have " + value + " kg's of food.");
+            } else {
+                int newValue = value - foodInKg;
+                foods.put(choice, newValue);
+            }
         }
         for(String key : foods.keySet()){
             System.out.println(key + ": " + foods.get(key));

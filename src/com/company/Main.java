@@ -11,10 +11,12 @@ public class Main {
         Horse leyla = new Horse("Leyla", "female");
         Rabbit snurre = new Rabbit("Snurre", "male");
         Ostrich ida = new Ostrich("ida", "female");
+ */
         System.out.println();
-        Grass grass = new Grass();
-        Corn corn = new Corn();
-        Meat meat = new Meat();
+        //Grass grass = new Grass();
+        //Corn corn = new Corn();
+        //Meat meat = new Meat();
+        Player player = new Player("Haj");
 /*
         carola.eatsFood(meat);
         System.out.println();
@@ -31,8 +33,14 @@ public class Main {
         System.out.println();
 */
         Game game = new Game();
+        Store store = new Store();
         //game.mating(carola, kicki);
         //game.mating(nemo,lollo);
+
+        //game.buyAnimal(player);
+        store.buyFood(player);
+        store.buyAnimal(player);
+        game.feedAnimal(player);
 
 
     }
