@@ -7,12 +7,16 @@ import java.util.Scanner;
 public class Game {
     Random random = new Random();
     Scanner input = new Scanner(System.in);
+    String[] validNumbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
-    Player currentPlayer = Player.players.get(0);
+    //Player currentPlayer = Player.players.get(0);
 
+    public Game(){
 
-    public Game() throws Exception {
+    }
+/*
+    public Game(Player player) throws Exception {
         System.out.println("Hello and welcome to the game PiggyBank!\n");
         sleep(500);
         System.out.println("In this game you can play by yourself or with up to three friends.");
@@ -36,7 +40,7 @@ public class Game {
     }
 
     public void play() throws Exception { // The main playing field where all choices will be made and continue until the game is over
-        currentPlayer = Player.players.get((Player.players.indexOf(currentPlayer) + 1 ) % Player.players.size());
+        //currentPlayer = Player.players.get((Player.players.indexOf(currentPlayer) + 1 ) % Player.players.size());
 
 
         if(firstRound){
@@ -59,47 +63,34 @@ public class Game {
             case "5" -> sellAnimal(currentPlayer);
             default -> System.out.println("That's not an option.");
         }
-    }
+    }*/
 
-    public void buyAnimal(Player player) throws Exception{
-        System.out.println("What animal would you like to buy? Cow, fish, horse, rabbit or ostrich?");
-        String choice = input.nextLine().toLowerCase();
-        System.out.println("Type the name of your animal.");
-        String animalName = input.nextLine();
-        System.out.println("Type in 'female' or 'male' for gender of your animal.");
-        String animalGender = input.nextLine();
-        if(choice.contains("cow")){
-            player.animals.add(new Cow(animalName, animalGender));
-        } else if(choice.contains("fish")){
-            player.animals.add(new Fish(animalName, animalGender));
-        } else if(choice.contains("horse")){
-            player.animals.add(new Horse(animalName, animalGender));
-        } else if(choice.contains("rabbit")){
-            player.animals.add(new Rabbit(animalName, animalGender));
-        } else if(choice.contains("ostrich")){
-            player.animals.add(new Ostrich(animalName, animalGender));
-        } else{
-            throw new Exception("Not valid.");
-        }
-    }
 
-    public void buyFood(Player player) throws Exception {
-        System.out.println("What food would you like to buy? Grass, corn or meat?");
-        String choice = input.nextLine().toLowerCase();
-        System.out.println("How much " + choice + " would you like to buy?");
-        if(choice.contains("grass")){
-            // add "grass" as food if not added, change kg of food the player have
-        } else if(choice.contains("corn")){
-            // add "grass" as food if not added, change kg of food the player have
-        } else if(choice.contains("meat")){
-            // add "grass" as food if not added, change kg of food the player have
-        } else{
-            throw new Exception("Not valid.");
-        }
-    }
+
 
     public void feedAnimal(Player player){
-
+        System.out.println("Type in the name of the animal you would like to feed:");
+        String animalName = input.nextLine();
+        for(int i = 0; i < player.animals.size(); i++){
+            if(!animalName.equals(player.animals.get(i).name)) {
+                System.out.println("You don't own a animal named " + animalName);
+            } else {
+                System.out.println("Choose the food you want to feed " + animalName + " with, grass[1], corn[2] or meat[3].");
+                System.out.println("And how many kg's - each kilo adds 10 to your animals health.");
+                String choice = input.nextLine().toLowerCase();
+                int foodInKg = Integer.parseInt(input.nextLine());
+                if(choice.contains("grass") || choice.contains("1")){
+                    choice = "grass";
+                } else if(choice.contains("corn") || choice.contains("2")){
+                    choice = "corn";
+                } else if (choice.contains("meat") || choice.contains("3")){
+                    choice = "meat";
+                }
+                System.out.println("");
+                player.animals.get(i).health = player.animals.get(i).health + (10 * foodInKg) ;
+                player.removeFood(choice, foodInKg);
+            }
+        }
     }
 
     public void mateAnimal(Player player){
@@ -109,7 +100,7 @@ public class Game {
     public void sellAnimal(Player player){
 
     }
-
+/*
     public void playersHolding(Player player){
         System.out.println(player.name + ", you currently have " + player.money + "kr and these are your holdings:");
         if(player.animals.size() == 0){
@@ -128,7 +119,7 @@ public class Game {
             }
         }
     }
-
+*/
     public void menu(){
         System.out.println("1. Buy an animal.");
         System.out.println("2. Buy food.");

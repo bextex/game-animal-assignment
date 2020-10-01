@@ -7,7 +7,7 @@ public final class Grass extends Food {
     public static boolean meat = false;
     public static boolean vegetable = true;
     public static int pricePerKg = 10;
-    public int kgFood;
+    public int kgFood = 0;
 
     public Grass(int kgFood){
         super(name, grain, meat, vegetable, pricePerKg, kgFood);
