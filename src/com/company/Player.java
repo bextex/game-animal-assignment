@@ -25,8 +25,20 @@ public class Player {
             foods.put(choice, newValue);
         }
         for(String key : foods.keySet()){
-            System.out.println(key + ": " + (Integer)foods.get(key));
+            System.out.println(key + ": " + foods.get(key));
         }
+    }
 
+    public void removeFood(String choice, int foodInKg){
+        if(!foods.containsKey(choice)){
+            System.out.println("Cannot feed with food you don't have.");
+        } else {
+            int value = foods.get(choice);
+            int newValue = value - foodInKg;
+            foods.put(choice, newValue);
+        }
+        for(String key : foods.keySet()){
+            System.out.println(key + ": " + foods.get(key));
+        }
     }
 }
