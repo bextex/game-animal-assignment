@@ -8,7 +8,7 @@ public final class Grass extends Food {
     public static boolean vegetable = true;
     public static int pricePerKg = 10;
 
-    public Grass(int kgFood){
+    public Grass(){
         super(name, grain, meat, vegetable, pricePerKg);
         Grass.name = super.name;
         Grass.grain = super.grain;

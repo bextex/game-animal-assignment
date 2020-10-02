@@ -8,7 +8,7 @@ public final class Corn extends Food {
     public static boolean vegetable = false;
     public static int pricePerKg = 12;
 
-    public Corn(int kgFood){
+    public Corn(){
         super(name, grain, meat, vegetable, pricePerKg);
         Corn.name = super.name;
         Corn.grain = super.grain;
