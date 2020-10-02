@@ -33,14 +33,14 @@ public class Main {
         System.out.println();
 */
         Game game = new Game();
-        Store store = new Store();
+        //Store store = new Store();
         //game.mating(carola, kicki);
         //game.mating(nemo,lollo);
 
         //game.buyAnimal(player);
-        store.buyFood(player);
-        store.buyAnimal(player);
-        game.feedAnimal(player);
+        //store.buyFood(player);
+        //store.buyAnimal(player);
+        //game.feedAnimal(player);
 
 
     }

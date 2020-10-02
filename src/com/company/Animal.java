@@ -4,7 +4,8 @@ public abstract class Animal { // Animal class is abstract and cannot be instant
 
     protected String name;
     protected String gender;
-    protected int health = 100;
+    public int health = 100;
+    public int price;
 
     public Animal(String name, String gender){
         this.name = name;

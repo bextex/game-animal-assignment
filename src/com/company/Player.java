@@ -37,7 +37,6 @@ public class Player {
             if(value < foodInKg){
                 System.out.println("You cannot feed with " + foodInKg + " you only have " + value + " kg's of food.");
             } else {
-
                 int newValue = value - foodInKg;
                 foods.put(food, newValue);
             }

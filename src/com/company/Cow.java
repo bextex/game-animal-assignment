@@ -2,8 +2,6 @@ package com.company;
 
 public class Cow extends Animal { // Cow inherent from Animal
 
-    private String name;
-    private String gender;
     private boolean eatGrain = true;
     private boolean eatMeat = false;
     private boolean eatVegetable = true;
@@ -12,9 +10,10 @@ public class Cow extends Animal { // Cow inherent from Animal
 
     public Cow(String name, String gender){
         super(name, gender);
-        this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-        this.gender = gender.toLowerCase();
+        super.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+        super.gender = gender.toLowerCase();
         this.health = super.health;
+        super.price = this.price;
         create(this.name, this.gender, this.health);
     }
 

@@ -1,5 +1,6 @@
 package com.company;
 
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -7,17 +8,48 @@ import java.util.Scanner;
 public class Game {
     Random random = new Random();
     Scanner input = new Scanner(System.in);
+    Store store = new Store();
+    Player player;
     Animal animal;
     Food food;
     String animalName;
+    boolean gameOver = true;
     String[] validNumbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
     //Player currentPlayer = Player.players.get(0);
 
-    public Game(){
-
+    public Game() throws Exception {
+        System.out.println("Welcome to the Game - PiggyBank!");
+        System.out.println("Type in number of players (1-4");
+        String choice = input.nextLine();
+        setPlayers(choice);
+        this.player = Player.players.get(0);
+        do {
+            System.out.println(player.name + " is your turn!");
+            menu();
+            String nextStep = input.nextLine();
+            switch (nextStep) {
+                case "1" -> store.buyAnimal(player);
+                case "2" -> store.buyFood(player);
+                case "3" -> feedAnimal(player);
+                case "4" -> mateAnimal(player);
+                case "5" -> store.sellAnimal(player);
+                default -> System.out.println("That's not an option.");
+            }
+        } while(gameOver);
     }
+
+    public void setPlayers(String playerNum){
+        int numOfPlayers = Integer.parseInt(playerNum);
+        for(int i = 1; i <= numOfPlayers; i++){
+            System.out.println("Type in the name of Player " + i + ":");
+            String player = input.nextLine();
+            Player.players.add(new Player(player));
+        }
+    }
+
+
 /*
     public Game(Player player) throws Exception {
         System.out.println("Hello and welcome to the game PiggyBank!\n");
@@ -33,14 +65,7 @@ public class Game {
         play();
     }
 
-    public void setPlayers(String playerNum){
-        int numOfPlayers = Integer.parseInt(playerNum);
-        for(int i = 1; i <= numOfPlayers; i++){
-            System.out.println("Type in the name of Player " + i + ":");
-            String player = input.nextLine();
-            Player.players.add(new Player(player));
-        }
-    }
+
 
     public void play() throws Exception { // The main playing field where all choices will be made and continue until the game is over
         //currentPlayer = Player.players.get((Player.players.indexOf(currentPlayer) + 1 ) % Player.players.size());
@@ -57,102 +82,117 @@ public class Game {
         playersHolding(currentPlayer); // Presents the current players holdings
         System.out.println("What is your next step?");
         menu();
-        String nextStep = input.nextLine();
-        switch (nextStep){
-            case "1" -> buyAnimal(currentPlayer);
-            case "2" -> buyFood(currentPlayer);
-            case "3" -> feedAnimal(currentPlayer);
-            case "4" -> mateAnimal(currentPlayer);
-            case "5" -> sellAnimal(currentPlayer);
-            default -> System.out.println("That's not an option.");
-        }
+
     }*/
 
 
 
 
     public void feedAnimal(Player player){
-        System.out.println("Type in the name of the animal you would like to feed:");
-        this.animalName = input.nextLine();
+        while(true) {
+            System.out.println("Type in the name of the animal you would like to feed:");
+            this.animalName = input.nextLine();
+            for (int i = 0; i < player.animals.size(); i++) {
+                if (!animalName.equals(player.animals.get(i).name)) {
+                    System.out.println("You don't own a animal called " + animalName);
+                } else {
+                    this.animal = player.animals.get(i);
+                }
+            }
+            System.out.println("Choose the food you want to feed " + animalName + " with.");
+            System.out.println("Grass[1], corn[2] or meat[3]? Or Exit[4] if you want to return to menu.");
+            String choice = input.nextLine().toLowerCase();
+            switch (choice) {
+                case "1", "grass" -> this.food = new Grass();
+                case "2", "corn" -> this.food = new Corn();
+                case "3", "meat" -> this.food = new Meat();
+                case "4", "exit" -> {
+                    break;
+                }
+                default -> System.out.println("Not valid.");
+            }
+            System.out.println("Type in how many kilos food you want to feed " + animalName + " with.");
+            System.out.println(animalName + " currently have " + (this.animal.health == 100 ? " full health" : (this.animal.health + " and you can feed " + this.animal.gender
+                    + " with max " + (100 - this.animal.health) + " kilos.")));
+            int foodInKg = input.nextInt();
+            player.removeFood(food, foodInKg);
+            System.out.println("Feed more animals or return to menu?");
+        }
+    }
+
+
+
+
+
+
+
+
+
+    public void mateAnimal(Player player) throws Exception {
+        Animal animal1;
+        Animal animal2;
+        Animal baby;
+        String raceAnimal1 = "";
+        String raceAnimal2 = "";
+        String genderAnimal1 = "";
+        String genderAnimal2 = "";
+        System.out.println("So you want to try mate your animals. Not everybody succeeds...but good luck!");
+        System.out.println("Type in the name of the first animal:");
+        String animalName1 = input.nextLine().toLowerCase();
+        System.out.println("Type in the name of the second animal:");
+        String animalName2 = input.nextLine().toLowerCase();
         for(int i = 0; i < player.animals.size(); i++){
-            if(!animalName.equals(player.animals.get(i).name)){
-                System.out.println("You don't own a animal called " + animalName);
+            if(player.animals.size() < 2){
+                System.out.println("You have not enough animals to mate. You should buy more!");
+                return;
+            } else if(animalName1.equals(player.animals.get(i).name)){
+                animal1 = player.animals.get(i);
+                genderAnimal1 = animal1.gender;
+                raceAnimal1 = animal1.getClass().getSimpleName().toLowerCase();
             } else {
-                this.animal = player.animals.get(i);
+                System.out.println("Can't mate with animals you don't have for animal 1");
             }
         }
-        System.out.println("Choose the food you want to feed " + animalName + " with.");
-        System.out.println("Grass[1], corn[2] or meat[3]? Or Exit[4] if you want to return to menu.");
-        String choice = input.nextLine().toLowerCase();
-        switch (choice){
-            case "1", "grass" -> this.food = new Grass();
-            case "2", "corn" -> this.food = new Corn();
-            case "3", "meat" -> this.food = new Meat();
-            case "4", "exit" -> {break;}
-            default -> System.out.println("Not valid.");
-        }
-        System.out.println("Type in how many kg's food you want to feed " + animalName + " with.");
-        System.out.println(animalName + " currently have " + (this.animal.health == 100 ? " full health" : (this.animal.health + " and you can feed " + this.animal.gender
-                + " with max " +  (100 - this.animal.health) + " kg's.")));
-        int foodInKg = input.nextInt();
-        player.addFood(food, foodInKg);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-
-        for(int i = 0; i < player.animals.size(); i++){
-            if(!animalName.equals(player.animals.get(i).name)) {
-                System.out.println("You don't own a animal named " + animalName);
+        for(int i = 0; i < player.animals.size(); i++) {
+            if (animalName2.equals(player.animals.get(i).name)) {
+                animal2 = player.animals.get(i);
+                genderAnimal2 = animal2.gender;
+                raceAnimal2 = animal2.getClass().getSimpleName().toLowerCase();
             } else {
-                animal = player.animals.get(i);
-                animalName = player.animals.get(i).name;
-                System.out.println("Choose the food you want to feed " + animalName + " with, grass[1], corn[2] or meat[3].");
-                System.out.println("And how many kg's - each kilo adds 10 to your animals health.");
-                String choice = input.nextLine().toLowerCase();
-                int foodInKg = Integer.parseInt(input.nextLine());
-                if (choice.contains("grass") || choice.contains("1")) {
-                    choice = "grass";
-                } else if (choice.contains("corn") || choice.contains("2")) {
-                    choice = "corn";
-                } else if (choice.contains("meat") || choice.contains("3")) {
-                    choice = "meat";
-                }
-
-                for(int j = 0; j < player.foods.size(); j++){
-                    if(choice.equals(player.foods.get(j).name)){
-                        food = player.foods.get(j);
-                    }
-                            System.out.println("");
-                            player.animals.get(i).health = player.animals.get(i).health + (10 * foodInKg) ;
-                            player.removeFood(choice, foodInKg, animal);
-                        }
-                    }
+                System.out.println("Can't mate with animals you don't have for animal 2");
+            }
         }
-    }*/
-
-    public void mateAnimal(Player player){
-
+        if(genderAnimal1.equals(genderAnimal2)){
+            System.out.println("Unfortunately, same sex animals cannot have babies.");
+        } else if(!raceAnimal1.equals(raceAnimal2)){
+            System.out.println("Animals with different races cannot mate...");
+        }
+        System.out.println("Let's see... The mating has begun...");
+        sleep(2000);
+        boolean matingOK = random.nextBoolean();
+        boolean gender = random.nextBoolean();
+        if(matingOK){
+            System.out.println("Congratulations, the mating was successful!");
+            System.out.println(animal1.name + " and " + animal2.name + " baby.");
+            sleep(500);
+            System.out.println("What do you want the baby to be called?");
+            String babyAnimalName = input.nextLine();
+            String genderOfAnimal = gender ? "female" : "male";
+            switch (raceAnimal1){
+                case "cow" -> baby = new Cow(babyAnimalName, genderOfAnimal);
+                case "fish" -> baby = new Fish(babyAnimalName, genderOfAnimal);
+                case "horse" -> baby = new Horse(babyAnimalName, genderOfAnimal);
+                case "rabbit" -> baby = new Rabbit(babyAnimalName, genderOfAnimal);
+                case "ostrich" -> baby = new Ostrich(babyAnimalName, genderOfAnimal);
+                default -> throw new Exception("Not successful!");
+            }
+            player.animals.add(baby);
+        } else{
+            System.out.println("No babies here, better luck next time!");
+        }
     }
 
-    public void sellAnimal(Player player){
 
-    }
 /*
     public void playersHolding(Player player){
         System.out.println(player.name + ", you currently have " + player.money + "kr and these are your holdings:");
@@ -180,7 +220,7 @@ public class Game {
         System.out.println("4. Mate your animals.");
         System.out.println("5. Sell your animal(s).");
     }
-
+/*
     public void mating(Animal animal1, Animal animal2) throws Exception {
         if(animal1.getClass().getSimpleName().equals(animal2.getClass().getSimpleName())){
             if(!animal1.gender.equals(animal2.gender)) {
@@ -212,7 +252,7 @@ public class Game {
             System.out.println("You cannot mate animals from different races.");
         }
     }
-
+*/
     private void sleep(int ms){
         try {
             Thread.sleep(ms);

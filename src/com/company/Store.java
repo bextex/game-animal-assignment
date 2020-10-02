@@ -11,9 +11,10 @@ public class Store {
     Random random = new Random();
 
     public int animalCost;
-    public String animalName;
     public int currentMoney;
-    public boolean gender = random.nextBoolean();
+
+    String animalName = "";
+    Animal animalBought = null;
     Animal animal;
     Food food;
 
@@ -22,22 +23,27 @@ public class Store {
         String choice = input.nextLine().toLowerCase();
         System.out.println("Type in the name of your animal:");
         this.animalName = input.nextLine();
+        boolean gender = random.nextBoolean();
         String genderOfAnimal = gender ? "female" : "male";
         switch (choice) {
-            case "1", "cow" -> this.animal = new Cow(animalName, genderOfAnimal);
-            case "2", "fish" -> this.animal = new Fish(animalName, genderOfAnimal);
-            case "3", "horse" -> this.animal = new Horse(animalName, genderOfAnimal);
-            case "4", "rabbit" -> this.animal = new Rabbit(animalName, genderOfAnimal);
-            case "5", "ostrich" -> this.animal = new Ostrich(animalName, genderOfAnimal);
+            case "1", "cow" -> animalBought = new Cow(animalName, genderOfAnimal);
+            case "2", "fish" -> animalBought = new Fish(animalName, genderOfAnimal);
+            case "3", "horse" -> animalBought = new Horse(animalName, genderOfAnimal);
+            case "4", "rabbit" -> animalBought = new Rabbit(animalName, genderOfAnimal);
+            case "5", "ostrich" -> animalBought = new Ostrich(animalName, genderOfAnimal);
             case "6", "exit" -> {break;}
             default -> throw new Exception("Not a valid choice.");
         }
-        player.animals.add(this.animal);
-        if (player.money > this.animal.price) {
-            player.money = player.money - this.animal.price;
+        player.animals.add(animalBought);
+        if (player.money > this.animalBought.price) {
+            player.money = player.money - this.animalBought.price;
             System.out.println("Congratulations on your buy. You have " + player.money + " left.");
         } else {
-            System.out.println("You can't afford to buy " + this.animal);
+            System.out.println("You can't afford to buy " + this.animalBought);
+        }
+        System.out.println("You now own:");
+        for(Animal a : player.animals){
+            System.out.println(a.name);
         }
     }
 
