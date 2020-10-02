@@ -7,6 +7,9 @@ import java.util.Scanner;
 public class Game {
     Random random = new Random();
     Scanner input = new Scanner(System.in);
+    Animal animal;
+    Food food;
+    String animalName;
     String[] validNumbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
@@ -70,28 +73,78 @@ public class Game {
 
     public void feedAnimal(Player player){
         System.out.println("Type in the name of the animal you would like to feed:");
-        String animalName = input.nextLine();
+        this.animalName = input.nextLine();
+        for(int i = 0; i < player.animals.size(); i++){
+            if(!animalName.equals(player.animals.get(i).name)){
+                System.out.println("You don't own a animal called " + animalName);
+            } else {
+                this.animal = player.animals.get(i);
+            }
+        }
+        System.out.println("Choose the food you want to feed " + animalName + " with.");
+        System.out.println("Grass[1], corn[2] or meat[3]? Or Exit[4] if you want to return to menu.");
+        String choice = input.nextLine().toLowerCase();
+        switch (choice){
+            case "1", "grass" -> this.food = new Grass();
+            case "2", "corn" -> this.food = new Corn();
+            case "3", "meat" -> this.food = new Meat();
+            case "4", "exit" -> {break;}
+            default -> System.out.println("Not valid.");
+        }
+        System.out.println("Type in how many kg's food you want to feed " + animalName + " with.");
+        System.out.println(animalName + " currently have " + (this.animal.health == 100 ? " full health" : (this.animal.health + " and you can feed " + this.animal.gender
+                + " with max " +  (100 - this.animal.health) + " kg's.")));
+        int foodInKg = input.nextInt();
+        player.addFood(food, foodInKg);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+
         for(int i = 0; i < player.animals.size(); i++){
             if(!animalName.equals(player.animals.get(i).name)) {
                 System.out.println("You don't own a animal named " + animalName);
             } else {
+                animal = player.animals.get(i);
+                animalName = player.animals.get(i).name;
                 System.out.println("Choose the food you want to feed " + animalName + " with, grass[1], corn[2] or meat[3].");
                 System.out.println("And how many kg's - each kilo adds 10 to your animals health.");
                 String choice = input.nextLine().toLowerCase();
                 int foodInKg = Integer.parseInt(input.nextLine());
-                if(choice.contains("grass") || choice.contains("1")){
+                if (choice.contains("grass") || choice.contains("1")) {
                     choice = "grass";
-                } else if(choice.contains("corn") || choice.contains("2")){
+                } else if (choice.contains("corn") || choice.contains("2")) {
                     choice = "corn";
-                } else if (choice.contains("meat") || choice.contains("3")){
+                } else if (choice.contains("meat") || choice.contains("3")) {
                     choice = "meat";
                 }
-                System.out.println("");
-                player.animals.get(i).health = player.animals.get(i).health + (10 * foodInKg) ;
-                player.removeFood(choice, foodInKg);
-            }
+
+                for(int j = 0; j < player.foods.size(); j++){
+                    if(choice.equals(player.foods.get(j).name)){
+                        food = player.foods.get(j);
+                    }
+                            System.out.println("");
+                            player.animals.get(i).health = player.animals.get(i).health + (10 * foodInKg) ;
+                            player.removeFood(choice, foodInKg, animal);
+                        }
+                    }
         }
-    }
+    }*/
 
     public void mateAnimal(Player player){
 
