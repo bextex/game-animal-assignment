@@ -8,6 +8,7 @@ public class Ostrich extends Animal { // Ostrich inherent from Animal
     private boolean eatMeat = true;
     private boolean eatVegetable = true;
     private int health;
+    public int price = 150;
 
     public Ostrich(String name, String gender){
         super(name, gender);

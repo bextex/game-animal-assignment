@@ -8,6 +8,7 @@ public class Rabbit extends Animal { // Rabbit inherent from Animal
     private boolean eatMeat = false;
     private boolean eatVegetable = true;
     private int health;
+    public int price = 70;
 
     public Rabbit(String name, String gender){
         super(name, gender);

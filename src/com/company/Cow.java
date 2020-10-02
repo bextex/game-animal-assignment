@@ -8,6 +8,7 @@ public class Cow extends Animal { // Cow inherent from Animal
     private boolean eatMeat = false;
     private boolean eatVegetable = true;
     private int health;
+    public int price = 100;
 
     public Cow(String name, String gender){
         super(name, gender);
@@ -24,10 +25,16 @@ public class Cow extends Animal { // Cow inherent from Animal
     }
 
     // Testing if the cow can eat the food
-    public void eatsFood(Food food){
+    public void eatsFood(Animal animal, Food food, int foodInKg){
         System.out.println("You want to feed " + this.name + " with " + food.name.toLowerCase());
         if(food.grain == eatGrain || food.meat == eatMeat || food.vegetable == eatVegetable){
             System.out.println("And " + this.name + " loves it.");
+            int newHealth = 10 * foodInKg;
+            if(newHealth >= 100){
+                this.health = 100;
+            } else {
+                this.health = newHealth;
+            }
         } else{
             System.out.println(this.name + " doesn't like this food.");
         }
