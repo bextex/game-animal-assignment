@@ -36,13 +36,14 @@ public class Store {
         player.animals.add(animalBought);
         if (player.money > this.animalBought.price) {
             player.money = player.money - this.animalBought.price;
-            System.out.println("Congratulations on your buy. You have " + player.money + " left.");
+            System.out.println("Congratulations on your buy. You have " + player.money + " kr left.");
         } else {
             System.out.println("You can't afford to buy " + this.animalBought);
         }
         System.out.println("You now own:");
         for(Animal a : player.animals){
-            System.out.println(a.name);
+            System.out.println(a.getClass().getSimpleName() + " - " + a.name + " "
+                    + (a.gender.equals("female") ? "(f)" : "(m)") + ". Health: " + a.health);
         }
     }
 

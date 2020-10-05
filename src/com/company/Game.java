@@ -127,11 +127,9 @@ public class Game {
         String animalName1 = input.nextLine().toLowerCase();
         System.out.println("Type in the name of the second animal:");
         String animalName2 = input.nextLine().toLowerCase();
-        for(int i = 0; i < player.animals.size(); i++){
-            if(player.animals.size() < 2){
-                System.out.println("You don't have enough animals to mate. You should buy more!");
-                return;
-            }
+        if(player.animals.size() < 2) {
+            System.out.println("You don't have enough animals to mate. You should buy more!");
+            return;
         }
         for(Animal a : player.animals){
             if(animalName1.equals(a.name.toLowerCase())){
@@ -150,17 +148,17 @@ public class Game {
             System.out.println("Unfortunately, same sex animals cannot have babies.");
             return;
         }
-        System.out.println("Let's see... The mating has begun...");
+        System.out.print("Let's see... The mating has begun...");
         sleep(2000);
         boolean matingOK = random.nextBoolean();
         boolean gender = random.nextBoolean();
         if(matingOK){
+            String genderOfAnimal = gender ? "female" : "male";
             System.out.println("Congratulations, the mating was successful!");
-            System.out.println(animal.name + " and " + animal2.name + " got a baby.");
+            System.out.println(animal.name + " and " + animal2.name + " got a " + genderOfAnimal + " baby.");
             sleep(500);
             System.out.println("What do you want to name the baby?");
             String babyAnimalName = input.nextLine();
-            String genderOfAnimal = gender ? "female" : "male";
             String raceAnimal = this.animal.getClass().getSimpleName().toLowerCase();
             switch (raceAnimal){
                 case "cow" -> baby = new Cow(babyAnimalName, genderOfAnimal);

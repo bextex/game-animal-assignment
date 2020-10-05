@@ -15,13 +15,13 @@ public class Fish extends Animal{ // Fish inherent from Animal
         this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
         this.gender = gender.toLowerCase();
         this.health = super.health;
-        this.price = super.price;
+        super.price = this.price;
         create(this.name, this.gender, this.health);
     }
 
     public void create(String name, String gender, int health){
-        System.out.println("You have created the fish " + name + " with gender " + gender + ". And " +
-                (gender.equals("female") ? "she" : "he") + " has " + health + " in health.");
+        System.out.println("The " + gender + " fish, " + name + ", is now in your possession." + "and " +
+                (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
     }
 
     public void eatsFood(Food food){
