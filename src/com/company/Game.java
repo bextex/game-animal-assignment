@@ -151,10 +151,14 @@ public class Game {
         System.out.println("These are your current holdings:");
         System.out.println("------------------------------------");
         System.out.println("Animals:" + (player.animals.size() == 0 ? " You don't own any animals." : ""));
+        int[] negativeHealthValues = {10, 20, 30};
         for(Animal a : player.animals){
+            int negativeHealthValue = random.nextInt(negativeHealthValues.length);
+            a.health = a.health - negativeHealthValues[negativeHealthValue];
             System.out.println(a.getClass().getSimpleName() + " - " + a.name + " "
-                    + (a.gender.equals("female") ? "(f)" : "(m)") + ". Health: " + a.health);
+                    + (a.gender.equals("female") ? "(f)" : "(m)") + ". " + (a.health <= 0 ? "HAS DIED!!!" : "Health: " + a.health));
         }
+        player.animals.removeIf(a -> a.health <= 0);
         System.out.println();
         System.out.println("Foods:" + (player.foods.size() == 0 ? " You don't own any food." : ""));
         for(Food key : player.foods.keySet()){
