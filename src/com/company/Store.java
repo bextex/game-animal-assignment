@@ -45,7 +45,6 @@ public class Store {
                 System.out.println("Congratulations on your buy. You have " + player.money + " kr left.\n");
             } else {
                 System.out.println("You can't afford to buy " + this.animalBought + "\n");
-                activeRound = false;
             }
             System.out.println("Do you wanna buy more[1] or exit your round[2]?");
             String nextStep = input.nextLine().toLowerCase();
@@ -59,18 +58,17 @@ public class Store {
     public void sellAnimal(Player player){
         do {
             System.out.println("Type in the name of your animal you want to sell.");
-            this.animalName = input.nextLine();
+            this.animalName = input.nextLine().toLowerCase();
             for (int i = 0; i < player.animals.size(); i++) {
-                if (animalName.equals(player.animals.get(i).name)) {
+                if (animalName.equals(player.animals.get(i).name.toLowerCase())) {
                     this.animal = player.animals.get(i);
                     player.animals.remove(animal);
-                    player.money = player.money + (animal.price * animal.health);
+                    player.money = player.money + (animal.price * (animal.health / 100));
+                    System.out.println("Congratulations on your sell. You now have " + player.money + " kr!\n");
                 } else {
                     System.out.println("You can't sell an animal you don't own.\n");
-                    activeRound = false;
                 }
             }
-            System.out.println("Congratulations on your sell. You now have " + player.money + " kr!\n");
             System.out.println("Do you wanna sell more[1] or exit your round[2]?");
             String nextStep = input.nextLine().toLowerCase();
             switch (nextStep){
@@ -105,7 +103,6 @@ public class Store {
                 player.addFood(food, foodInKg);
             } else {
                 System.out.println("You can't afford it.\n");
-                activeRound = false;
             }
             System.out.println("Do you wanna buy more[1] or exit your round[2]?");
             String nextStep = input.nextLine().toLowerCase();
