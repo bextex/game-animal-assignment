@@ -9,12 +9,12 @@ import java.util.Scanner;
 public class Game {
     Random random = new Random();
     Scanner input = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
     Store store = new Store();
     Player player;
     Animal animal, animal2, baby;
     Food food;
     String animalName;
-    boolean gameOver = true;
     boolean activeRound = true;
     String[] validNumbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     int round = random.nextInt(25) + 5;
@@ -28,7 +28,9 @@ public class Game {
         setPlayers(choice);
         this.player = Player.players.get(0);
         do {
+            System.out.println(round + " rounds left.");
             sleep(500);
+            System.out.println();
             System.out.println(player.name + " is your turn!");
             playersHolding(player);
             System.out.println("------------------------------------");
@@ -50,7 +52,7 @@ public class Game {
                 System.out.println("The game is over!");
                 summarizeBelongings();
             }
-        } while(gameOver && round > 0);
+        } while(round > 0);
     }
 
     public void setPlayers(String playerNum){
@@ -67,37 +69,31 @@ public class Game {
             System.out.println("Type in the name of the animal you would like to feed:");
             this.animalName = input.nextLine().toLowerCase();
             for (int i = 0; i < player.animals.size(); i++) {
-                if (!animalName.equals(player.animals.get(i).name.toLowerCase())) {
-                    System.out.println("You don't own a animal called " + animalName);
-                    return;
-                } else {
+                if (animalName.equals(player.animals.get(i).name.toLowerCase())) {
                     this.animal = player.animals.get(i);
-                }
+                } //Find a way to not have runtime error if input is a animal the player don't have
             }
-            System.out.println("Choose the food you want to feed " + animalName + " with.");
-            System.out.println("Grass[1], corn[2] or meat[3]? Or Exit[4] if you want to return to menu.");
+            System.out.println("Which food do you wanna feed " + animal.name + " with? " +
+                    "Grass[1], corn[2] or meat[3]?");
             String choice = input.nextLine().toLowerCase();
+            System.out.println("How many kilo foods? Each kilo increases health by 10 percentage points.");
+            int foodInKg = input.nextInt();
             switch (choice) {
-                case "1", "grass" -> this.food = new Grass();
-                case "2", "corn" -> this.food = new Corn();
-                case "3", "meat" -> this.food = new Meat();
-                case "4", "exit" -> {
-                    break;
-                }
+                case "1", "grass" -> choice = "grass";
+                case "2", "corn" -> choice = "corn";
+                case "3", "meat" -> choice = "meat";
                 default -> System.out.println("Not valid.");
             }
-            System.out.println("Type in how many kilos food you want to feed " + animalName + " with.");
-            System.out.println(animalName + " currently have " + (this.animal.health == 100 ? "full health" : (this.animal.health + " and you can feed " + this.animal.gender
-                    + " with max " + (100 - this.animal.health) + " kilos.")));
-            int foodInKg = input.nextInt();
-            player.removeFood(food, foodInKg);
-            System.out.println("Do you wanna buy more[1] or exit your round[2]?");
-            String nextStep = input.nextLine().toLowerCase();
-            switch (nextStep) {
+            player.removeFood(animal.name, choice, foodInKg);
+            System.out.println();
+            System.out.println("Do you wanna feed more[1] or exit your round[2]?");
+            String nextStep = input.nextLine().toLowerCase(); // The scanner has died somehow????
+            switch (nextStep.toLowerCase()) {
                 case "1", "more" -> activeRound = true;
-                case "2", "exit" -> activeRound = false;
+                default -> activeRound = false;
             }
-        } while (activeRound);
+        } while(activeRound);
+
     }
 
 

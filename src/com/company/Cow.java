@@ -2,9 +2,9 @@ package com.company;
 
 public class Cow extends Animal { // Cow inherent from Animal
 
-    private boolean eatGrain = true;
-    private boolean eatMeat = false;
-    private boolean eatVegetable = true;
+    private static boolean eatGrain = true;
+    private static boolean eatMeat = false;
+    private static boolean eatVegetable = true;
     private int health;
     public int price = 100;
 
@@ -14,6 +14,9 @@ public class Cow extends Animal { // Cow inherent from Animal
         super.gender = gender.toLowerCase();
         this.health = super.health;
         super.price = this.price;
+        super.eatGrain = Cow.eatGrain;
+        super.eatMeat = Cow.eatMeat;
+        super.eatVegetable = Cow.eatVegetable;
         create(this.name, this.gender, this.health);
     }
 
@@ -24,19 +27,17 @@ public class Cow extends Animal { // Cow inherent from Animal
     }
 
     // Testing if the cow can eat the food
-    public void eatsFood(Animal animal, Food food, int foodInKg){
-        System.out.println("You want to feed " + this.name + " with " + food.name.toLowerCase());
+    public boolean eatFood(Food food, int foodInKg){
         if(food.grain == eatGrain || food.meat == eatMeat || food.vegetable == eatVegetable){
-            System.out.println("And " + this.name + " loves it.");
             int newHealth = 10 * foodInKg;
             if(newHealth >= 100){
                 this.health = 100;
             } else {
                 this.health = newHealth;
             }
-        } else{
-            System.out.println(this.name + " doesn't like this food.");
+            return true;
         }
+        return false;
     }
 
 }

@@ -6,6 +6,9 @@ public abstract class Animal { // Animal class is abstract and cannot be instant
     protected String gender;
     public int health = 100;
     public int price;
+    protected boolean eatGrain;
+    protected boolean eatMeat;
+    protected boolean eatVegetable;
 
     public Animal(String name, String gender){
         this.name = name;
@@ -15,5 +18,4 @@ public abstract class Animal { // Animal class is abstract and cannot be instant
     protected String getGender(){
         return this.gender;
     }
-
 }

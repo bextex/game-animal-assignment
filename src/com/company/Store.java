@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Store {
 
-    Scanner input = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
     Random random = new Random();
 
     String animalName = "";
@@ -18,11 +18,16 @@ public class Store {
     public void buyAnimal(Player player) throws Exception {
         do {
             System.out.println("What animal do you wanna buy? Cow[1], fish[2], horse[3], rabbit[4], ostrich[5] or exit[6] to get back to menu.");
-            String choice = input.nextLine().toLowerCase();
+            String choice = scanner.nextLine().toLowerCase();
+            switch (choice){
+                case "6", "exit" -> {
+                    return;
+                }
+            }
             System.out.println("Type in the name of your animal:");
-            this.animalName = input.nextLine();
+            this.animalName = scanner.nextLine();
             System.out.println("Choose your animals gender - female[1] or male[2].");
-            String genderOfAnimal = input.nextLine().toLowerCase();
+            String genderOfAnimal = scanner.nextLine().toLowerCase();
             switch (genderOfAnimal) {
                 case "1", "female" -> genderOfAnimal = "female";
                 case "2", "male" -> genderOfAnimal = "male";
@@ -34,9 +39,6 @@ public class Store {
                 case "3", "horse" -> animalBought = new Horse(animalName, genderOfAnimal);
                 case "4", "rabbit" -> animalBought = new Rabbit(animalName, genderOfAnimal);
                 case "5", "ostrich" -> animalBought = new Ostrich(animalName, genderOfAnimal);
-                case "6", "exit" -> {
-                    break;
-                }
                 default -> throw new Exception("Not a valid choice.");
             }
             player.animals.add(animalBought);
@@ -47,10 +49,10 @@ public class Store {
                 System.out.println("You can't afford to buy " + this.animalBought + "\n");
             }
             System.out.println("Do you wanna buy more[1] or exit your round[2]?");
-            String nextStep = input.nextLine().toLowerCase();
+            String nextStep = scanner.nextLine().toLowerCase();
             switch (nextStep){
                 case "1", "more" -> activeRound = true;
-                case "2", "exit" -> activeRound = false;
+                default -> activeRound = false;
             }
         } while (activeRound);
     }
@@ -58,7 +60,7 @@ public class Store {
     public void sellAnimal(Player player){
         do {
             System.out.println("Type in the name of your animal you want to sell.");
-            this.animalName = input.nextLine().toLowerCase();
+            this.animalName = scanner.nextLine().toLowerCase();
             for (int i = 0; i < player.animals.size(); i++) {
                 if (animalName.equals(player.animals.get(i).name.toLowerCase())) {
                     this.animal = player.animals.get(i);
@@ -70,10 +72,10 @@ public class Store {
                 }
             }
             System.out.println("Do you wanna sell more[1] or exit your round[2]?");
-            String nextStep = input.nextLine().toLowerCase();
+            String nextStep = scanner.nextLine().toLowerCase();
             switch (nextStep){
                 case "1", "more" -> activeRound = true;
-                case "2", "exit" -> activeRound = false;
+                default -> activeRound = false;
             }
         } while(activeRound);
     }
@@ -81,13 +83,12 @@ public class Store {
     public void buyFood(Player player) throws Exception {
         do {
             System.out.println("What food would you like to buy? Grass[1], corn[2], meat[3] or exit[4] to get back to menu.");
-            String choice = input.nextLine().toLowerCase();
-            System.out.println("Typ in how many kilos of food you want.");
+            String choice = scanner.nextLine().toLowerCase();
+            System.out.println("Type in how many kilos of food you want.");
             int foodInKg = 0;
             try {
-                foodInKg = Integer.parseInt(input.nextLine());
-            } catch (Exception ignore) {
-            }
+                foodInKg = Integer.parseInt(scanner.nextLine());
+            } catch (Exception ignore) {}
             switch (choice) {
                 case "1", "grass" -> this.food = new Grass();
                 case "2", "corn" -> this.food = new Corn();
@@ -105,10 +106,10 @@ public class Store {
                 System.out.println("You can't afford it.\n");
             }
             System.out.println("Do you wanna buy more[1] or exit your round[2]?");
-            String nextStep = input.nextLine().toLowerCase();
+            String nextStep = scanner.nextLine().toLowerCase();
             switch (nextStep){
                 case "1", "more" -> activeRound = true;
-                case "2", "exit" -> activeRound = false;
+                default -> activeRound = false;
             }
         } while(activeRound);
     }

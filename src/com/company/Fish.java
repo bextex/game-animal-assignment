@@ -4,9 +4,9 @@ public class Fish extends Animal{ // Fish inherent from Animal
 
     private String name;
     private String gender;
-    private boolean eatGrain = true;
-    private boolean eatMeat = true;
-    private boolean eatVegetable = false;
+    private static boolean eatGrain = true;
+    private static boolean eatMeat = true;
+    private static boolean eatVegetable = false;
     private int health;
     public int price = 50;
 
@@ -16,6 +16,9 @@ public class Fish extends Animal{ // Fish inherent from Animal
         this.gender = gender.toLowerCase();
         this.health = super.health;
         super.price = this.price;
+        super.eatGrain = Fish.eatGrain;
+        super.eatMeat = Fish.eatMeat;
+        super.eatVegetable = Fish.eatVegetable;
         create(this.name, this.gender, this.health);
     }
 
@@ -24,12 +27,16 @@ public class Fish extends Animal{ // Fish inherent from Animal
                 (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
     }
 
-    public void eatsFood(Food food){
-        System.out.println("You want to feed " + this.name + " with " + food.name.toLowerCase());
+    public boolean eatFood(Food food, int foodInKg){
         if(food.grain == eatGrain || food.meat == eatMeat || food.vegetable == eatVegetable){
-            System.out.println("And " + this.name + " loves it.");
-        } else{
-            System.out.println(this.name + " doesn't like this food.");
+            int newHealth = 10 * foodInKg;
+            if(newHealth >= 100){
+                this.health = 100;
+            } else {
+                this.health = newHealth;
+            }
+            return true;
         }
+        return false;
     }
 }
