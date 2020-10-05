@@ -2,6 +2,7 @@ package com.company;
 
 import java.sql.SQLOutput;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -40,9 +41,15 @@ public class Game {
                 case "3" -> feedAnimal(player);
                 case "4" -> mateAnimal(player);
                 case "5" -> store.sellAnimal(player);
+                case "6" -> activeRound = false;
                 default -> System.out.println("That's not an option.");
             }
             round--;
+            if(round <= 0){
+                System.out.println("------------------------------------");
+                System.out.println("The game is over!");
+                summarizeBelongings();
+            }
         } while(gameOver && round > 0);
     }
 
@@ -171,40 +178,18 @@ public class Game {
         System.out.println("3. Feed your animal(s).");
         System.out.println("4. Mate your animals.");
         System.out.println("5. Sell your animal(s).");
+        System.out.println("6. Exit round.");
     }
-/*
-    public void mating(Animal animal1, Animal animal2) throws Exception {
-        if(animal1.getClass().getSimpleName().equals(animal2.getClass().getSimpleName())){
-            if(!animal1.gender.equals(animal2.gender)) {
-                System.out.print("The mating has begun... ");
-                sleep(2000);
-                boolean matingOK = random.nextBoolean();
-                boolean genderReveal = random.nextBoolean();
-                String gender = (genderReveal ? "female" : "male");
-                if(matingOK){
-                    System.out.println("The mating was successful!");
-                    System.out.println(animal1.name + " and " + animal2.name + " got a " + gender + " baby.");
-                    sleep(1000);
-                    System.out.println("Name the new baby:");
-                    switch (animal1.getClass().getSimpleName()){
-                        case "Cow" -> new Cow(input.nextLine(), gender);
-                        case "Fish" -> new Fish(input.nextLine(), gender);
-                        case "Horse" -> new Horse(input.nextLine(), gender);
-                        case "Rabbit" -> new Rabbit(input.nextLine(), gender);
-                        case "Ostrich" -> new Ostrich(input.nextLine(), gender);
-                        default -> throw new Exception("Something went wrong");
-                    }
-                } else{
-                    System.out.println("No babies here, better luck next time.");
-                }
-            } else {
-                System.out.println("Unfortunately, same sex animals cannot mate.");
+
+    public void summarizeBelongings(){
+        for(Player p : Player.players){
+            for(Animal a : p.animals){
+                p.money = p.money + (a.price * (a.health / 100));
             }
-        } else {
-            System.out.println("You cannot mate animals from different races.");
+            System.out.println(p.name + " has a total of " + p.money + " kr.");
         }
     }
-*/
+
     private void sleep(int ms){
         try {
             Thread.sleep(ms);
