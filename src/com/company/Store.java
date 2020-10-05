@@ -36,14 +36,9 @@ public class Store {
         player.animals.add(animalBought);
         if (player.money > this.animalBought.price) {
             player.money = player.money - this.animalBought.price;
-            System.out.println("Congratulations on your buy. You have " + player.money + " kr left.");
+            System.out.println("Congratulations on your buy. You have " + player.money + " kr left.\n");
         } else {
-            System.out.println("You can't afford to buy " + this.animalBought);
-        }
-        System.out.println("You now own:");
-        for(Animal a : player.animals){
-            System.out.println(a.getClass().getSimpleName() + " - " + a.name + " "
-                    + (a.gender.equals("female") ? "(f)" : "(m)") + ". Health: " + a.health);
+            System.out.println("You can't afford to buy " + this.animalBought +"\n");
         }
     }
 
@@ -56,10 +51,10 @@ public class Store {
                 player.animals.remove(animal);
                 player.money = player.money + (animal.price * animal.health);
             } else {
-                System.out.println("You can't sell an animal you don't own.");
+                System.out.println("You can't sell an animal you don't own.\n");
             }
         }
-        System.out.println("Congratulations on your sell. You now have " + player.money + "!");
+        System.out.println("Congratulations on your sell. You now have " + player.money + " kr!\n");
     }
 
     public void buyFood(Player player) throws Exception {
@@ -81,10 +76,10 @@ public class Store {
         }
         if (player.money > food.pricePerKg * foodInKg) {
             player.money = player.money - food.pricePerKg * foodInKg;
-            System.out.println("Congratulations on your buy. You have " + player.money + " left.");
+            System.out.println("Congratulations on your buy. You have " + player.money + " kr left.\n");
             player.addFood(food, foodInKg);
         } else {
-            System.out.println("You can't afford it.");
+            System.out.println("You can't afford it.\n");
         }
 
     }

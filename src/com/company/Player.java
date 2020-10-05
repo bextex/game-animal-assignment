@@ -24,9 +24,6 @@ public class Player {
             int newValue = value + foodInKg;
             foods.put(food, newValue);
         }
-        for(Food key : foods.keySet()){
-            System.out.println(key + ": " + foods.get(key));
-        }
     }
 
     public void removeFood(Food food, int foodInKg){
@@ -35,14 +32,11 @@ public class Player {
         } else {
             int value = foods.get(food);
             if(value < foodInKg){
-                System.out.println("You cannot feed with " + foodInKg + " you only have " + value + " kg's of food.");
+                System.out.println("You cannot feed with " + foodInKg + " you only have " + value + " kilos of food.");
             } else {
                 int newValue = value - foodInKg;
                 foods.put(food, newValue);
             }
-        }
-        for(Food key : foods.keySet()){
-            System.out.println(key + ": " + foods.get(key));
         }
     }
 }

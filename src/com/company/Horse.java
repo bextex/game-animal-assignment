@@ -20,7 +20,7 @@ public class Horse extends Animal { // Horse inherent from Animal
     }
 
     public void create(String name, String gender, int health){
-        System.out.println("The " + gender + " horse, " + name + ", is now in your possession." + "and " +
+        System.out.println("The " + gender + " horse, " + name + ", is now in your possession " + "and " +
                 (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
     }
 

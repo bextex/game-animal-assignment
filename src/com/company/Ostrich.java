@@ -20,7 +20,7 @@ public class Ostrich extends Animal { // Ostrich inherent from Animal
     }
 
     public void create(String name, String gender, int health){
-        System.out.println("The " + gender + " ostrich, " + name + ", is now in your possession." + "and " +
+        System.out.println("The " + gender + " ostrich, " + name + ", is now in your possession " + "and " +
                 (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
     }
 

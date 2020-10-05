@@ -19,8 +19,8 @@ public class Cow extends Animal { // Cow inherent from Animal
 
     // Testing to create a cow with health from superclass Animal
     public void create(String name, String gender, int health){
-        System.out.println("You have created the cow " + name + " with gender " + gender + ". And " +
-                (gender.equals("female") ? "she" : "he") + " has " + health + " in health.");
+        System.out.println("The " + gender + " cow, " + name + ", is now in your possession " + "and " +
+                (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
     }
 
     // Testing if the cow can eat the food

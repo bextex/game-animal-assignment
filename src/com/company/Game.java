@@ -26,7 +26,10 @@ public class Game {
         setPlayers(choice);
         this.player = Player.players.get(0);
         do {
+            sleep(500);
             System.out.println(player.name + " is your turn!");
+            playersHolding(player);
+            System.out.println("------------------------------------");
             menu();
             String nextStep = input.nextLine();
             switch (nextStep) {
@@ -48,45 +51,6 @@ public class Game {
             Player.players.add(new Player(player));
         }
     }
-
-
-/*
-    public Game(Player player) throws Exception {
-        System.out.println("Hello and welcome to the game PiggyBank!\n");
-        sleep(500);
-        System.out.println("In this game you can play by yourself or with up to three friends.");
-        System.out.println("To make it extra fun, we - the game masters - will choose between 5 and 30 rounds so the game stops when you least expect it... Good luck!");
-        System.out.println("Press ENTER when you're ready to start.");
-        input.nextLine();
-        System.out.println("Choose how many players you want to be (1-4)");
-        String playerNum = input.nextLine(); // -----Make som sort of control so there cannot be more than 4 or less than 1 player-----
-        setPlayers(playerNum);
-        sleep(500);
-        play();
-    }
-
-
-
-    public void play() throws Exception { // The main playing field where all choices will be made and continue until the game is over
-        //currentPlayer = Player.players.get((Player.players.indexOf(currentPlayer) + 1 ) % Player.players.size());
-
-
-        if(firstRound){
-            System.out.print("Welcome ");
-            for(Player p : Player.players){
-                System.out.println(p.name); // -----Fix formatting when welcoming the players!!!-----
-            }
-            firstRound = false;
-            round--;
-        }
-        playersHolding(currentPlayer); // Presents the current players holdings
-        System.out.println("What is your next step?");
-        menu();
-
-    }*/
-
-
-
 
     public void feedAnimal(Player player){
         while(true) {
@@ -174,27 +138,20 @@ public class Game {
         }
     }
 
-
-/*
     public void playersHolding(Player player){
-        System.out.println(player.name + ", you currently have " + player.money + "kr and these are your holdings:");
-        if(player.animals.size() == 0){
-            System.out.println("You don't own any animals for now.");
-        } else{
-            for(Animal a : player.animals){
-                System.out.println("The " + a.getClass().getSimpleName() + " " + a.name + " with health " + a.health);
-            }
+        System.out.println("These are your current holdings:");
+        System.out.println("------------------------------------");
+        System.out.println("Animals:" + (player.animals.size() == 0 ? " You don't own any animals." : ""));
+        for(Animal a : player.animals){
+            System.out.println(a.getClass().getSimpleName() + " - " + a.name + " "
+                    + (a.gender.equals("female") ? "(f)" : "(m)") + ". Health: " + a.health);
         }
-        if(player.foods.size() == 0){
-            System.out.println("You don't own any food for now.");
-        } else {
-            for(Food f : player.foods){ // kilo of each food???
-
-                System.out.println(f.kgFood + "kg of " + f.name);
-            }
+        System.out.println();
+        System.out.println("Foods:" + (player.foods.size() == 0 ? " You don't own any food." : ""));
+        for(Food key : player.foods.keySet()){
+            System.out.println(key.name + " - " + player.foods.get(key) + " kg");
         }
     }
-*/
     public void menu(){
         System.out.println("1. Buy an animal.");
         System.out.println("2. Buy food.");
