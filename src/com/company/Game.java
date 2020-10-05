@@ -10,7 +10,7 @@ public class Game {
     Scanner input = new Scanner(System.in);
     Store store = new Store();
     Player player;
-    Animal animal;
+    Animal animal, animal2, baby;
     Food food;
     String animalName;
     boolean gameOver = true;
@@ -21,7 +21,7 @@ public class Game {
 
     public Game() throws Exception {
         System.out.println("Welcome to the Game - PiggyBank!");
-        System.out.println("Type in number of players (1-4");
+        System.out.println("Type in number of players (1-4)");
         String choice = input.nextLine();
         setPlayers(choice);
         this.player = Player.players.get(0);
@@ -121,51 +121,34 @@ public class Game {
     }
 
 
-
-
-
-
-
-
-
     public void mateAnimal(Player player) throws Exception {
-        Animal animal1;
-        Animal animal2;
-        Animal baby;
-        String raceAnimal1 = "";
-        String raceAnimal2 = "";
-        String genderAnimal1 = "";
-        String genderAnimal2 = "";
-        System.out.println("So you want to try mate your animals. Not everybody succeeds...but good luck!");
-        System.out.println("Type in the name of the first animal:");
+        System.out.println("So you want to try mate your animals. Not everyone succeeds...but good luck!");
+        System.out.println("Type in the name of your first animal:");
         String animalName1 = input.nextLine().toLowerCase();
         System.out.println("Type in the name of the second animal:");
         String animalName2 = input.nextLine().toLowerCase();
         for(int i = 0; i < player.animals.size(); i++){
             if(player.animals.size() < 2){
-                System.out.println("You have not enough animals to mate. You should buy more!");
+                System.out.println("You don't have enough animals to mate. You should buy more!");
                 return;
-            } else if(animalName1.equals(player.animals.get(i).name)){
-                animal1 = player.animals.get(i);
-                genderAnimal1 = animal1.gender;
-                raceAnimal1 = animal1.getClass().getSimpleName().toLowerCase();
-            } else {
-                System.out.println("Can't mate with animals you don't have for animal 1");
             }
         }
-        for(int i = 0; i < player.animals.size(); i++) {
-            if (animalName2.equals(player.animals.get(i).name)) {
-                animal2 = player.animals.get(i);
-                genderAnimal2 = animal2.gender;
-                raceAnimal2 = animal2.getClass().getSimpleName().toLowerCase();
-            } else {
-                System.out.println("Can't mate with animals you don't have for animal 2");
+        for(Animal a : player.animals){
+            if(animalName1.equals(a.name.toLowerCase())){
+                this.animal = a;
+            }
+            for(Animal b : player.animals){
+                if(animalName2.equals(b.name.toLowerCase())){
+                    this.animal2 = b;
+                }
             }
         }
-        if(genderAnimal1.equals(genderAnimal2)){
-            System.out.println("Unfortunately, same sex animals cannot have babies.");
-        } else if(!raceAnimal1.equals(raceAnimal2)){
+        if(!animal.getClass().equals(animal2.getClass())){
             System.out.println("Animals with different races cannot mate...");
+            return;
+        } else if(animal.getGender().equals(animal2.getGender())){
+            System.out.println("Unfortunately, same sex animals cannot have babies.");
+            return;
         }
         System.out.println("Let's see... The mating has begun...");
         sleep(2000);
@@ -173,12 +156,13 @@ public class Game {
         boolean gender = random.nextBoolean();
         if(matingOK){
             System.out.println("Congratulations, the mating was successful!");
-            System.out.println(animal1.name + " and " + animal2.name + " baby.");
+            System.out.println(animal.name + " and " + animal2.name + " got a baby.");
             sleep(500);
-            System.out.println("What do you want the baby to be called?");
+            System.out.println("What do you want to name the baby?");
             String babyAnimalName = input.nextLine();
             String genderOfAnimal = gender ? "female" : "male";
-            switch (raceAnimal1){
+            String raceAnimal = this.animal.getClass().getSimpleName().toLowerCase();
+            switch (raceAnimal){
                 case "cow" -> baby = new Cow(babyAnimalName, genderOfAnimal);
                 case "fish" -> baby = new Fish(babyAnimalName, genderOfAnimal);
                 case "horse" -> baby = new Horse(babyAnimalName, genderOfAnimal);

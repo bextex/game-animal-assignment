@@ -14,8 +14,7 @@ public class Store {
     public int currentMoney;
 
     String animalName = "";
-    Animal animalBought = null;
-    Animal animal;
+    Animal animalBought, animal;
     Food food;
 
     public void buyAnimal(Player player) throws Exception {

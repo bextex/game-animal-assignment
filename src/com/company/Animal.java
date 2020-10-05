@@ -12,4 +12,8 @@ public abstract class Animal { // Animal class is abstract and cannot be instant
         this.gender = gender;
     }
 
+    protected String getGender(){
+        return this.gender;
+    }
+
 }
