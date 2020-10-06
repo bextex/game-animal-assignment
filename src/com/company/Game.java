@@ -186,42 +186,4 @@ public class Game {
         }
         catch(Exception ignore){}
     }
-
-
-
-
-
-
-
-
-
-            /*
-            System.out.println("Type in the name of the animal you would like to feed:");
-            this.animalName = input.nextLine().toLowerCase();
-            for (int i = 0; i < player.animals.size(); i++) {
-                if (animalName.equals(player.animals.get(i).name.toLowerCase())) {
-                    this.animal = player.animals.get(i);
-                } //Find a way to not have runtime error if input is a animal the player don't have
-            }
-            System.out.println("Which food do you wanna feed " + animal.name + " with? " +
-                    "Grass[1], corn[2] or meat[3]?");
-            String choice = input.nextLine().toLowerCase();
-            System.out.println("How many kilo foods? Each kilo increases health by 10 percentage points.");
-            int foodInKg = input.nextInt();
-            switch (choice) {
-                case "1", "grass" -> choice = "grass";
-                case "2", "corn" -> choice = "corn";
-                case "3", "meat" -> choice = "meat";
-                default -> System.out.println("Not valid.");
-            }
-            player.removeFood(animal.name, choice, foodInKg);
-            System.out.println();
-            System.out.println("Do you wanna feed more[1] or exit your round[2]?");
-            String nextStep = input.nextLine().toLowerCase(); // The scanner has died somehow????
-            switch (nextStep.toLowerCase()) {
-                case "1", "more" -> activeRound = true;
-                default -> activeRound = false;
-            }*/
-
-
 }

@@ -26,18 +26,4 @@ public class Ostrich extends Animal { // Ostrich inherent from Animal
         System.out.println("The " + gender + " ostrich, " + name + ", is now in your possession " + "and " +
                 (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
     }
-
-   /* public boolean eatFood(Food food, int foodInKg){
-        if(food.grain == eatGrain || food.meat == eatMeat || food.vegetable == eatVegetable){
-            int newHealth = 10 * foodInKg;
-            if(newHealth >= 100){
-                this.health = 100;
-            } else {
-                this.health = newHealth;
-            }
-            return true;
-        }
-        return false;
-    }*/
-
 }

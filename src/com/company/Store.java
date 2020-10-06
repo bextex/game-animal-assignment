@@ -20,9 +20,6 @@ public class Store {
         do {
             animalSelection(player);
             this.animal = player.animals.get(player.animals.size() - 1);
-            //if(exit()){
-             //   activeRound = false;
-            //}
             makeTheTransaction(player, animal.price, true);
             activeRound = continueOrExit();
         } while (activeRound);
@@ -40,27 +37,6 @@ public class Store {
                 System.out.println("You can't sell an animal you don't own.\n");
             }
             activeRound = continueOrExit();
-
-            /*System.out.println("Type in the name of your animal you want to sell.");
-
-
-            this.animalName = scanner.nextLine().toLowerCase();
-            for (int i = 0; i < player.animals.size(); i++) {
-                if (animalName.equals(player.animals.get(i).name.toLowerCase())) {
-                    this.animal = player.animals.get(i);
-                    player.animals.remove(animal);
-                    player.money = player.money + (animal.price * (animal.health / 100));
-                    System.out.println("Congratulations on your sell. You now have " + player.money + " kr!\n");
-                } else {
-                    System.out.println("You can't sell an animal you don't own.\n");
-                }
-            }
-            System.out.println("Do you wanna sell more[1] or exit your round[2]?");
-            String nextStep = scanner.nextLine().toLowerCase();
-            switch (nextStep){
-                case "1", "more" -> activeRound = true;
-                default -> activeRound = false;
-            }*/
         } while(activeRound);
     }
 
@@ -82,36 +58,6 @@ public class Store {
                 makeTheTransaction(player, cost, true);
             }
             activeRound = continueOrExit();
-            /*
-            System.out.println("What food would you like to buy? Grass[1], corn[2], meat[3] or exit[4] to get back to menu.");
-            String choice = scanner.nextLine().toLowerCase();
-            System.out.println("Type in how many kilos of food you want.");
-            int foodInKg = 0;
-            try {
-                foodInKg = Integer.parseInt(scanner.nextLine());
-            } catch (Exception ignore) {}
-            switch (choice) {
-                case "1", "grass" -> this.food = new Grass();
-                case "2", "corn" -> this.food = new Corn();
-                case "3", "meat" -> this.food = new Meat();
-                case "4", "exit" -> {
-                    break;
-                }
-                default -> throw new Exception("Not a valid choice.");
-            }
-            if (player.money > food.pricePerKg * foodInKg) {
-                player.money = player.money - food.pricePerKg * foodInKg;
-                System.out.println("Congratulations on your buy. You have " + player.money + " kr left.\n");
-                player.addFood(food, foodInKg);
-            } else {
-                System.out.println("You can't afford it.\n");
-            }
-            System.out.println("Do you wanna buy more[1] or exit your round[2]?");
-            String nextStep = scanner.nextLine().toLowerCase();
-            switch (nextStep){
-                case "1", "more" -> activeRound = true;
-                default -> activeRound = false;
-            }*/
         } while(activeRound);
     }
 
