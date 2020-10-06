@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class Game {
     Random random = new Random();
     Scanner input = new Scanner(System.in);
-    Scanner scanner = new Scanner(System.in);
     Store store = new Store();
     Player player;
     Animal animal, animal2, baby;
@@ -28,8 +27,8 @@ public class Game {
         setPlayers(choice);
         this.player = Player.players.get(0);
         do {
-            System.out.println(round + " rounds left.");
             sleep(500);
+            System.out.println(round + " rounds left.");
             System.out.println();
             System.out.println(player.name + " is your turn!");
             playersHolding(player);
@@ -93,9 +92,7 @@ public class Game {
                 default -> activeRound = false;
             }
         } while(activeRound);
-
     }
-
 
     public void mateAnimal(Player player) throws Exception {
         System.out.println("So you want to try mate your animals. Not everyone succeeds...but good luck!");
@@ -127,24 +124,37 @@ public class Game {
         System.out.print("Let's see... The mating has begun...");
         sleep(2000);
         boolean matingOK = random.nextBoolean();
-        boolean gender = random.nextBoolean();
+        String animalClass = animal.getClass().getSimpleName().toLowerCase();
+        int numOfBabies;
+        switch (animalClass){
+            case "cow", "horse", "ostrich" -> numOfBabies = 1;
+            case "fish" -> numOfBabies = random.nextInt(10) + 5; // Minimize the numbers to fit the other animals
+            case "rabbit" -> numOfBabies = random.nextInt(13) + 1;
+            default -> throw new IllegalStateException("Unexpected value: " + animalClass);
+        }
         if(matingOK){
-            String genderOfAnimal = gender ? "female" : "male";
             System.out.println("Congratulations, the mating was successful!");
-            System.out.println(animal.name + " and " + animal2.name + " got a " + genderOfAnimal + " baby.");
+            System.out.println(animal.name + " and " + animal2.name + " got " + numOfBabies + (numOfBabies >= 2 ? " baby." : " babies."));
             sleep(500);
-            System.out.println("What do you want to name the baby?");
-            String babyAnimalName = input.nextLine();
-            String raceAnimal = this.animal.getClass().getSimpleName().toLowerCase();
-            switch (raceAnimal){
-                case "cow" -> baby = new Cow(babyAnimalName, genderOfAnimal);
-                case "fish" -> baby = new Fish(babyAnimalName, genderOfAnimal);
-                case "horse" -> baby = new Horse(babyAnimalName, genderOfAnimal);
-                case "rabbit" -> baby = new Rabbit(babyAnimalName, genderOfAnimal);
-                case "ostrich" -> baby = new Ostrich(babyAnimalName, genderOfAnimal);
-                default -> throw new Exception("Not successful!");
-            }
-            player.animals.add(baby);
+            int countingBabies = 1;
+            do {
+                boolean gender = random.nextBoolean();
+                String genderOfAnimal = gender ? "female" : "male";
+                System.out.println("What do you want to name the " + genderOfAnimal + " " + (numOfBabies == 1 ? "baby?" : "baby nr " + countingBabies + "?"));
+                String babyAnimalName = input.nextLine();
+                String raceAnimal = this.animal.getClass().getSimpleName().toLowerCase();
+                switch (raceAnimal) {
+                    case "cow" -> baby = new Cow(babyAnimalName, genderOfAnimal);
+                    case "fish" -> baby = new Fish(babyAnimalName, genderOfAnimal);
+                    case "horse" -> baby = new Horse(babyAnimalName, genderOfAnimal);
+                    case "rabbit" -> baby = new Rabbit(babyAnimalName, genderOfAnimal);
+                    case "ostrich" -> baby = new Ostrich(babyAnimalName, genderOfAnimal);
+                    default -> throw new Exception("Not successful!");
+                }
+                player.animals.add(baby);
+                numOfBabies--;
+                countingBabies++;
+            } while(numOfBabies > 0);
         } else{
             System.out.println("No babies here, better luck next time!");
         }
@@ -159,7 +169,7 @@ public class Game {
             int negativeHealthValue = random.nextInt(negativeHealthValues.length);
             a.health = a.health - negativeHealthValues[negativeHealthValue];
             System.out.println(a.getClass().getSimpleName() + " - " + a.name + " "
-                    + (a.gender.equals("female") ? "(f)" : "(m)") + ". " + (a.health <= 0 ? "HAS DIED!!!" : "Health: " + a.health));
+                    + (a.gender.equals("female") ? "(f)" : "(m)") + ". " + (a.health <= 0 ? "HAS DIED!!! x_x" : "Health: " + a.health));
         }
         player.animals.removeIf(a -> a.health <= 0);
         System.out.println();
