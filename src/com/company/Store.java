@@ -7,59 +7,43 @@ import java.util.Scanner;
 
 public class Store {
 
-    Scanner scanner = new Scanner(System.in);
+    Scanner input = new Scanner(System.in);
     Random random = new Random();
 
-    String animalName = "";
-    Animal animalBought, animal;
+    String animalName, gender;
+    Animal animal;
     Food food;
     boolean activeRound = true;
 
-    public void buyAnimal(Player player) throws Exception {
+    public void buyAnimal(Player player){
+        System.out.println("----WELCOME TO THE STORE FOR BUYING ANIMALS----\n");
         do {
-            System.out.println("What animal do you wanna buy? Cow[1], fish[2], horse[3], rabbit[4], ostrich[5] or exit[6] to get back to menu.");
-            String choice = scanner.nextLine().toLowerCase();
-            switch (choice){
-                case "6", "exit" -> {
-                    return;
-                }
-            }
-            System.out.println("Type in the name of your animal:");
-            this.animalName = scanner.nextLine();
-            System.out.println("Choose your animals gender - female[1] or male[2].");
-            String genderOfAnimal = scanner.nextLine().toLowerCase();
-            switch (genderOfAnimal) {
-                case "1", "female" -> genderOfAnimal = "female";
-                case "2", "male" -> genderOfAnimal = "male";
-                default -> throw new Exception("Not a valid choice.");
-            }
-            switch (choice) {
-                case "1", "cow" -> animalBought = new Cow(animalName, genderOfAnimal);
-                case "2", "fish" -> animalBought = new Fish(animalName, genderOfAnimal);
-                case "3", "horse" -> animalBought = new Horse(animalName, genderOfAnimal);
-                case "4", "rabbit" -> animalBought = new Rabbit(animalName, genderOfAnimal);
-                case "5", "ostrich" -> animalBought = new Ostrich(animalName, genderOfAnimal);
-                default -> throw new Exception("Not a valid choice.");
-            }
-            player.animals.add(animalBought);
-            if (player.money > this.animalBought.price) {
-                player.money = player.money - this.animalBought.price;
-                System.out.println("Congratulations on your buy. You have " + player.money + " kr left.\n");
-            } else {
-                System.out.println("You can't afford to buy " + this.animalBought + "\n");
-            }
-            System.out.println("Do you wanna buy more[1] or exit your round[2]?");
-            String nextStep = scanner.nextLine().toLowerCase();
-            switch (nextStep){
-                case "1", "more" -> activeRound = true;
-                default -> activeRound = false;
-            }
+            animalSelection(player);
+            this.animal = player.animals.get(player.animals.size() - 1);
+            //if(exit()){
+             //   activeRound = false;
+            //}
+            makeTheTransaction(player, animal.price, true);
+            activeRound = continueOrExit();
         } while (activeRound);
     }
 
     public void sellAnimal(Player player){
+        System.out.println("----WELCOME TO THE STORE FOR SELLING ANIMALS----\n");
         do {
-            System.out.println("Type in the name of your animal you want to sell.");
+            Animal existAnimal = animalExist(player);
+            if(existAnimal != null){
+                int cost = (existAnimal.price * (existAnimal.health / 100));
+                makeTheTransaction(player, cost, false);
+                player.animals.remove(existAnimal);
+            } else {
+                System.out.println("You can't sell an animal you don't own.\n");
+            }
+            activeRound = continueOrExit();
+
+            /*System.out.println("Type in the name of your animal you want to sell.");
+
+
             this.animalName = scanner.nextLine().toLowerCase();
             for (int i = 0; i < player.animals.size(); i++) {
                 if (animalName.equals(player.animals.get(i).name.toLowerCase())) {
@@ -76,12 +60,29 @@ public class Store {
             switch (nextStep){
                 case "1", "more" -> activeRound = true;
                 default -> activeRound = false;
-            }
+            }*/
         } while(activeRound);
     }
 
     public void buyFood(Player player) throws Exception {
+        System.out.println("----WELCOME TO THE STORE FOR BUYING FOOD----\n");
         do {
+            String choice = foodSelection();
+            System.out.println("Type in how many kilos of food you want.");
+            int foodInKg = 0;
+            try {
+                foodInKg = Integer.parseInt(input.nextLine());
+            } catch (Exception ignore) {}
+            if(foodInKg <= 0){
+                System.out.println("Type in a number bigger than 0!");
+            } else {
+                player.addFood(choice, foodInKg);
+                Food food = player.convertStringToFood(choice);
+                int cost = food.pricePerKg * foodInKg;
+                makeTheTransaction(player, cost, true);
+            }
+            activeRound = continueOrExit();
+            /*
             System.out.println("What food would you like to buy? Grass[1], corn[2], meat[3] or exit[4] to get back to menu.");
             String choice = scanner.nextLine().toLowerCase();
             System.out.println("Type in how many kilos of food you want.");
@@ -110,8 +111,96 @@ public class Store {
             switch (nextStep){
                 case "1", "more" -> activeRound = true;
                 default -> activeRound = false;
-            }
+            }*/
         } while(activeRound);
+    }
+
+    public Animal animalExist(Player player){
+        System.out.println("Type in the animals name:");
+        this.animalName = input.nextLine().toLowerCase();
+        for(int i = 0; i < player.animals.size(); i++){
+            if(animalName.equals(player.animals.get(i).name.toLowerCase())){
+                this.animal = player.animals.get(i);
+                return this.animal;
+            }
+        }
+        return this.animal = null;
+    }
+
+    public void animalSelection(Player player){
+        System.out.println("Choose cow[1], fish[2], horse[3], rabbit[4] or ostrich[5].");
+        String choice = input.nextLine();
+        String gender = genderOfAnimal(true);
+        System.out.println("Type in the name of your new " + gender + " animal:");
+        String nameOfAnimal = input.nextLine();
+        switch (choice){
+            case "1", "cow" -> player.animals.add(new Cow(nameOfAnimal, gender));
+            case "2", "fish" -> player.animals.add(new Fish(nameOfAnimal, gender));
+            case "3", "horse" -> player.animals.add(new Horse(nameOfAnimal, gender));
+            case "4", "rabbit" -> player.animals.add(new Rabbit(nameOfAnimal, gender));
+            case "5", "ostrich" -> player.animals.add(new Ostrich(nameOfAnimal, gender));
+            default -> System.out.println("Not a valid choice!");
+        }
+    }
+
+    public String genderOfAnimal(boolean choosingGender){
+        if(choosingGender){
+            System.out.println("Choose female[1] or male[2]");
+            String genderChoice = input.nextLine().toLowerCase();
+            switch (genderChoice){
+                case "1", "female" -> gender = "female";
+                case "2", "male" -> gender = "male";
+                default -> {System.out.println("Not a valid choice!"); activeRound = false;}
+            }
+        } else {
+            int randomGender = random.nextInt(2);
+            switch (randomGender){
+                case 0 -> gender = "female";
+                case 1 -> gender = "male";
+                default -> System.out.println("Unsuspected problems for automatic gender reveal!");
+            }
+        }
+        return gender;
+    }
+
+    public String foodSelection(){
+        System.out.println("Choose grass[1], corn[2] or meat[3].");
+        String choice = input.nextLine();
+        switch (choice){
+            case "1", "grass" -> choice = "grass";
+            case "2", "corn" -> choice = "corn";
+            case "3", "meat" -> choice = "meat";
+            default -> System.out.println("Not a valid choice!");
+        }
+        return choice;
+    }
+
+    private boolean exit(){
+        return true;
+    }
+
+    public void makeTheTransaction(Player player, int cost, boolean buy){
+        if(player.money < cost){
+            System.out.println("You can't afford it!");
+            return;
+        }
+        if(buy){
+            player.money = player.money - cost;
+        } else {
+            player.money = player.money + cost;
+        }
+        System.out.println("Congratulations on your buy! You have now have " + player.money + " kr!");
+    }
+
+    public boolean continueOrExit(){
+        System.out.println("Do you want to continue[1] or exit[2]?");
+        String choice = input.nextLine().toLowerCase();
+        boolean continueRound;
+        switch (choice){
+            case "1", "continue" -> continueRound = true;
+            default -> continueRound = false;
+        }
+        return continueRound;
     }
 
     private void sleep(int ms){

@@ -27,7 +27,7 @@ public class Cow extends Animal { // Cow inherent from Animal
     }
 
     // Testing if the cow can eat the food
-    public boolean eatFood(Food food, int foodInKg){
+    /*public boolean animalEatsFood(Food food, int foodInKg) {
         if(food.grain == eatGrain || food.meat == eatMeat || food.vegetable == eatVegetable){
             int newHealth = 10 * foodInKg;
             if(newHealth >= 100){
@@ -38,6 +38,8 @@ public class Cow extends Animal { // Cow inherent from Animal
             return true;
         }
         return false;
-    }
+
+
+    }*/
 
 }

@@ -1,6 +1,7 @@
 package com.company;
 
-public abstract class Animal { // Animal class is abstract and cannot be instantiated
+public abstract class Animal {
+     // Animal class is abstract and cannot be instantiated
 
     protected String name;
     protected String gender;
@@ -15,7 +16,7 @@ public abstract class Animal { // Animal class is abstract and cannot be instant
         this.gender = gender;
     }
 
-    protected String getGender(){
+    public String getGender(){
         return this.gender;
     }
 }
