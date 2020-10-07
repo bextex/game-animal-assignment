@@ -20,7 +20,10 @@ public class Store {
         do {
             animalSelection(player);
             this.animal = player.animals.get(player.animals.size() - 1);
-            makeTheTransaction(player, animal.price, true);
+            boolean transactionOK = makeTheTransaction(player, animal.price, true);
+            if(!transactionOK){
+                player.animals.remove(player.animals.size() - 1);
+            }
             activeRound = continueOrExit();
         } while (activeRound);
     }
@@ -31,8 +34,10 @@ public class Store {
             Animal existAnimal = animalExist(player);
             if(existAnimal != null){
                 int cost = (existAnimal.price * (existAnimal.health / 100));
-                makeTheTransaction(player, cost, false);
-                player.animals.remove(existAnimal);
+                boolean transactionOK = makeTheTransaction(player, cost, false);
+                if(transactionOK){
+                    player.animals.remove(existAnimal);
+                }
             } else {
                 System.out.println("You can't sell an animal you don't own.\n");
             }
@@ -52,10 +57,12 @@ public class Store {
             if(foodInKg <= 0){
                 System.out.println("Type in a number bigger than 0!");
             } else {
-                player.addFood(choice, foodInKg);
                 Food food = player.convertStringToFood(choice);
                 int cost = food.pricePerKg * foodInKg;
-                makeTheTransaction(player, cost, true);
+                boolean transactionOK = makeTheTransaction(player, cost, true);
+                if(transactionOK){
+                    player.addFood(choice, foodInKg);
+                }
             }
             activeRound = continueOrExit();
         } while(activeRound);
@@ -125,17 +132,18 @@ public class Store {
         return true;
     }
 
-    public void makeTheTransaction(Player player, int cost, boolean buy){
+    public boolean makeTheTransaction(Player player, int cost, boolean buy){
         if(player.money < cost){
             System.out.println("You can't afford it!");
-            return;
+            return false;
         }
         if(buy){
             player.money = player.money - cost;
         } else {
             player.money = player.money + cost;
         }
-        System.out.println("Congratulations on your buy! You have now have " + player.money + " kr!");
+        System.out.println("Congratulations the transaction was successful! You now have " + player.money + " kr!");
+        return true;
     }
 
     public boolean continueOrExit(){

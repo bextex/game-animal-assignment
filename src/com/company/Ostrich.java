@@ -19,11 +19,11 @@ public class Ostrich extends Animal { // Ostrich inherent from Animal
         super.eatGrain = Ostrich.eatGrain;
         super.eatMeat = Ostrich.eatMeat;
         super.eatVegetable = Ostrich.eatVegetable;
-        create(this.name, this.gender, this.health);
+        //create(this.name, this.gender, this.health);
     }
 
-    public void create(String name, String gender, int health){
+   /* public void create(String name, String gender, int health){
         System.out.println("The " + gender + " ostrich, " + name + ", is now in your possession " + "and " +
                 (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
-    }
+    }*/
 }

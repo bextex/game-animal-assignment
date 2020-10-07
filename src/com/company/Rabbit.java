@@ -19,11 +19,11 @@ public class Rabbit extends Animal { // Rabbit inherent from Animal
         super.eatGrain = Rabbit.eatGrain;
         super.eatMeat = Rabbit.eatMeat;
         super.eatVegetable = Rabbit.eatVegetable;
-        create(this.name, this.gender, this.health);
+        //create(this.name, this.gender, this.health);
     }
 
-    public void create(String name, String gender, int health){
+    /*public void create(String name, String gender, int health){
         System.out.println("The " + gender + " rabbit, " + name + ", is now in your possession " + "and " +
                 (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
-    }
+    }*/
 }

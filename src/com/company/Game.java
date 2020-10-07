@@ -147,6 +147,7 @@ public class Game {
     public void playersHolding(Player player){
         System.out.println("These are your current holdings:");
         System.out.println("------------------------------------");
+        System.out.println("Money: " + player.money + " kr!\n");
         System.out.println("Animals:" + (player.animals.size() == 0 ? " You don't own any animals." : ""));
         int[] negativeHealthValues = {10, 20, 30};
         for(Animal a : player.animals){

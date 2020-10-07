@@ -19,12 +19,12 @@ public class Fish extends Animal{ // Fish inherent from Animal
         super.eatGrain = Fish.eatGrain;
         super.eatMeat = Fish.eatMeat;
         super.eatVegetable = Fish.eatVegetable;
-        create(this.name, this.gender, this.health);
+        //create(this.name, this.gender, this.health);
     }
 
-    public void create(String name, String gender, int health){
+    /*public void create(String name, String gender, int health){
         System.out.println("The " + gender + " fish, " + name + ", is now in your possession " + "and " +
                 (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
-    }
+    }*/
 
 }

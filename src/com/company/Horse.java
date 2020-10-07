@@ -19,12 +19,12 @@ public class Horse extends Animal { // Horse inherent from Animal
         super.eatGrain = Horse.eatGrain;
         super.eatMeat = Horse.eatMeat;
         super.eatVegetable = Horse.eatVegetable;
-        create(this.name, this.gender, this.health);
+        //create(this.name, this.gender, this.health);
     }
-
+/*
     public void create(String name, String gender, int health){
         System.out.println("The " + gender + " horse, " + name + ", is now in your possession " + "and " +
                 (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
-    }
+    }*/
 
 }

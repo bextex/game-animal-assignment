@@ -17,12 +17,12 @@ public class Cow extends Animal { // Cow inherent from Animal
         super.eatGrain = Cow.eatGrain;
         super.eatMeat = Cow.eatMeat;
         super.eatVegetable = Cow.eatVegetable;
-        create(this.name, this.gender, this.health);
+        //create(this.name, this.gender, this.health);
     }
 
     // Testing to create a cow with health from superclass Animal
-    public void create(String name, String gender, int health){
+    /*public void create(String name, String gender, int health){
         System.out.println("The " + gender + " cow, " + name + ", is now in your possession " + "and " +
                 (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
-    }
+    }*/
 }
