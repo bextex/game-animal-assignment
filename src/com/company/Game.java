@@ -68,7 +68,6 @@ public class Game {
             this.animal = store.animalExist(player);
             this.animalName = store.animalName;
             String foodSelection = store.foodSelection();
-            System.out.println(foodSelection);
             System.out.println("How many kilo of food do you wanna feed " + animalName + " with?");
             int kgOfFood = Integer.parseInt(input.nextLine());
             if(player.removeFood(animalName, foodSelection, kgOfFood)){

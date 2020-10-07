@@ -48,9 +48,13 @@ public class Player {
 
     public boolean removeFood(String animalName, String choice, int foodInKg) {
         boolean okFoodChoice = animalEatFood(convertStringToFood(choice), animalName);
+
         if(okFoodChoice) {
             for (String key : foods.keySet()) {
-                if (choice.equals(key) && foods.get(key) != 0) {
+                if(foods.get(choice) == null){ // VAD KAN MAN HA HÄR SÅ DEN FATTAR??????
+                    System.out.println("You can't feed with what you don't have!");
+                    return false;
+                } else if (choice.equals(key)) {
                     if (foodInKg > foods.get(key)) {
                         System.out.println("You don't have that much food.\n");
                         return false;
@@ -61,9 +65,6 @@ public class Player {
                         System.out.println("Yummi! " + animalName + " liked that!\n");
                         return true;
                     }
-                } else {
-                    System.out.println("You can't feed with what you don't have!"); // ?????
-                    return false;
                 }
             }
         } else {
@@ -74,7 +75,7 @@ public class Player {
 
     public void cleanList(){
         int value;
-        for(String key : foods.keySet()){
+        for(String key : foods.keySet()){ // ERROORRRR!!! When same animal eats two time in a row so the food runs out (2 kg first round and 3 kg second round) And there's total 5 kg.
             value = foods.get(key);
             if(value == 0){
                 foods.remove(key);
