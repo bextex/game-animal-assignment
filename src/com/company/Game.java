@@ -71,9 +71,11 @@ public class Game {
             System.out.println(foodSelection);
             System.out.println("How many kilo of food do you wanna feed " + animalName + " with?");
             int kgOfFood = Integer.parseInt(input.nextLine());
-            player.removeFood(animalName, foodSelection, kgOfFood);
-            double newHealth = animal.health + (kgOfFood * 10);
-            animal.health = Math.min(newHealth, 100);
+            if(player.removeFood(animalName, foodSelection, kgOfFood)){
+                double newHealth = animal.health + (kgOfFood * 10);
+                animal.health = Math.min(newHealth, 100);
+            }
+            player.cleanList();
             activeRound = store.continueOrExit();
         } while(activeRound);
     }
@@ -147,7 +149,7 @@ public class Game {
     public void playersHolding(Player player){
         System.out.println("These are your current holdings:");
         System.out.println("------------------------------------");
-        System.out.println("Money: " + player.money + " kr!\n");
+        System.out.println("Money: " + player.money + " kr\n");
         System.out.println("Animals:" + (player.animals.size() == 0 ? " You don't own any animals." : ""));
         int[] negativeHealthValues = {10, 20, 30};
         for(Animal a : player.animals){

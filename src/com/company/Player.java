@@ -13,11 +13,11 @@ public class Player {
     public String name;
     public int money = 1000;
 
-    public Player(String name){
+    public Player(String name) {
         this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
     }
 
-    public Food convertStringToFood(String choice){
+    public Food convertStringToFood(String choice) {
         switch (choice) {
             case "grass" -> this.food = new Grass();
             case "corn" -> this.food = new Corn();
@@ -28,7 +28,7 @@ public class Player {
     }
 
     public void addFood(String choice, int foodInKg) {
-        if(!foods.containsKey(choice)){
+        if (!foods.containsKey(choice)) {
             foods.put(choice, foodInKg);
         } else {
             int value = foods.get(choice);
@@ -37,8 +37,8 @@ public class Player {
         }
     }
 
-    private boolean animalEatFood(Food food, String animalName){
-        for(Animal a : animals) {
+    private boolean animalEatFood(Food food, String animalName) {
+        for (Animal a : animals) {
             if (a.name.toLowerCase().equals(animalName.toLowerCase())) {
                 return (a.eatGrain && food.grain || a.eatMeat && food.meat || a.eatVegetable && food.vegetable);
             }
@@ -46,26 +46,40 @@ public class Player {
         return false;
     }
 
-    public void removeFood(String animalName, String choice, int foodInKg){
+    public boolean removeFood(String animalName, String choice, int foodInKg) {
         boolean okFoodChoice = animalEatFood(convertStringToFood(choice), animalName);
         if(okFoodChoice) {
-            for(String key : foods.keySet()) {
-                if (choice.equals(key)) {
-                    int value = foods.get(key);
-                    if (value < foodInKg) {
-                        System.out.println("You cannot feed with " + foodInKg + " kg when you only have " + value + " kg of food.");
+            for (String key : foods.keySet()) {
+                if (choice.equals(key) && foods.get(key) != 0) {
+                    if (foodInKg > foods.get(key)) {
+                        System.out.println("You don't have that much food.\n");
+                        return false;
                     } else {
+                        int value = foods.get(key);
                         value = value - foodInKg;
                         foods.put(key, value);
-                        System.out.println("Yummi! " + animalName + " liked that!");
+                        System.out.println("Yummi! " + animalName + " liked that!\n");
+                        return true;
                     }
                 } else {
-                    System.out.println("You cannot feed with food you don't have!");
+                    System.out.println("You can't feed with what you don't have!"); // ?????
+                    return false;
                 }
-                return;
             }
         } else {
-            System.out.println("URK! " + animalName + " doesn't like this kind of food!");
+            System.out.println("URK! " + animalName + " doesn't like this kind of food!\n");
+        }
+        return false;
+    }
+
+    public void cleanList(){
+        int value;
+        for(String key : foods.keySet()){
+            value = foods.get(key);
+            if(value == 0){
+                foods.remove(key);
+            }
         }
     }
 }
+
