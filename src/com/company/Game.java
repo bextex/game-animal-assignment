@@ -72,7 +72,7 @@ public class Game {
             System.out.println("How many kilo of food do you wanna feed " + animalName + " with?");
             int kgOfFood = Integer.parseInt(input.nextLine());
             player.removeFood(animalName, foodSelection, kgOfFood);
-            int newHealth = animal.health + (kgOfFood * 10);
+            double newHealth = animal.health + (kgOfFood * 10);
             animal.health = Math.min(newHealth, 100);
             activeRound = store.continueOrExit();
         } while(activeRound);
@@ -153,8 +153,7 @@ public class Game {
         for(Animal a : player.animals){
             int negativeHealthValue = random.nextInt(negativeHealthValues.length);
             a.health = a.health - negativeHealthValues[negativeHealthValue];
-            System.out.println(a.getClass().getSimpleName() + " - " + a.name + " "
-                    + (a.gender.equals("female") ? "(f)" : "(m)") + ". " + (a.health <= 0 ? "HAS DIED!!! x_x" : "Health: " + a.health));
+            System.out.printf("%s - %s %s. %s\n", a.getClass().getSimpleName(), a.name, (a.gender.equals("female") ? "(f)" : "(m)"), (a.health <= 0 ? "HAS DIED!!! x_x" : "Health: " + (int) a.health));
         }
         player.animals.removeIf(a -> a.health <= 0);
         System.out.println();
@@ -175,7 +174,7 @@ public class Game {
     public void summarizeBelongings(){
         for(Player p : Player.players){
             for(Animal a : p.animals){
-                p.money = p.money + (a.price * (a.health / 100));
+                p.money = (int) (p.money + (a.price * (a.health / 100)));
             }
             System.out.println(p.name + " has a total of " + p.money + " kr.");
         }

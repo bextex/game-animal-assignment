@@ -5,7 +5,7 @@ public abstract class Animal {
 
     protected String name;
     protected String gender;
-    public int health = 100;
+    public double health = 100;
     public int price;
     protected boolean eatGrain;
     protected boolean eatMeat;

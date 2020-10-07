@@ -5,7 +5,7 @@ public class Cow extends Animal { // Cow inherent from Animal
     private static boolean eatGrain = true;
     private static boolean eatMeat = false;
     private static boolean eatVegetable = true;
-    private int health;
+    private double health;
     public int price = 100;
 
     public Cow(String name, String gender){

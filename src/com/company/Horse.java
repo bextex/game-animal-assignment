@@ -4,7 +4,7 @@ public class Horse extends Animal { // Horse inherent from Animal
 
     private String name;
     private String gender;
-    private int health;
+    private double health;
     public int price = 120;
     private static boolean eatGrain = false;
     private static boolean eatMeat = false;

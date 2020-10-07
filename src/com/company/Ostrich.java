@@ -7,7 +7,7 @@ public class Ostrich extends Animal { // Ostrich inherent from Animal
     private static boolean eatGrain = true;
     private static boolean eatMeat = true;
     private static boolean eatVegetable = true;
-    private int health;
+    private double health;
     public int price = 150;
 
     public Ostrich(String name, String gender){

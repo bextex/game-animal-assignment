@@ -33,7 +33,8 @@ public class Store {
         do {
             Animal existAnimal = animalExist(player);
             if(existAnimal != null){
-                int cost = (existAnimal.price * (existAnimal.health / 100));
+                double cost = existAnimal.price * (existAnimal.health / 100);
+                System.out.println("Selling price for " + existAnimal.name + " is: " + cost + " kr.");
                 boolean transactionOK = makeTheTransaction(player, cost, false);
                 if(transactionOK){
                     player.animals.remove(existAnimal);
@@ -58,7 +59,7 @@ public class Store {
                 System.out.println("Type in a number bigger than 0!");
             } else {
                 Food food = player.convertStringToFood(choice);
-                int cost = food.pricePerKg * foodInKg;
+                double cost = food.pricePerKg * foodInKg;
                 boolean transactionOK = makeTheTransaction(player, cost, true);
                 if(transactionOK){
                     player.addFood(choice, foodInKg);
@@ -132,17 +133,17 @@ public class Store {
         return true;
     }
 
-    public boolean makeTheTransaction(Player player, int cost, boolean buy){
+    public boolean makeTheTransaction(Player player, double cost, boolean buy){
         if(player.money < cost){
-            System.out.println("You can't afford it!");
+            System.out.println("You can't afford it!\n");
             return false;
         }
         if(buy){
-            player.money = player.money - cost;
+            player.money = (int) (player.money - cost);
         } else {
-            player.money = player.money + cost;
+            player.money = (int) (player.money + cost);
         }
-        System.out.println("Congratulations the transaction was successful! You now have " + player.money + " kr!");
+        System.out.println("Congratulations, the transaction was successful! You now have " + player.money + " kr!\n");
         return true;
     }
 
