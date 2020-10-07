@@ -18,7 +18,7 @@ public class Store {
     public void buyAnimal(Player player){
         System.out.println("----WELCOME TO THE STORE FOR BUYING ANIMALS----\n");
         do {
-            animalSelection(player);
+            animalSelection(player, false);
             this.animal = player.animals.get(player.animals.size() - 1);
             boolean transactionOK = makeTheTransaction(player, animal.price, true);
             if(!transactionOK){
@@ -81,11 +81,18 @@ public class Store {
         return this.animal = null;
     }
 
-    public void animalSelection(Player player){
-        System.out.println("Choose cow[1], fish[2], horse[3], rabbit[4] or ostrich[5].");
-        String choice = input.nextLine();
-        String gender = genderOfAnimal(true);
-        System.out.println("Type in the name of your new " + gender + " animal:");
+    public void animalSelection(Player player, boolean mating){
+        String choice;
+        String gender;
+        if(!mating) {
+            System.out.println("Choose cow[1], fish[2], horse[3], rabbit[4] or ostrich[5].");
+            choice = input.nextLine();
+            gender = genderOfAnimal(true);
+        } else {
+            choice = this.animal.getClass().getSimpleName().toLowerCase();
+            gender = genderOfAnimal(false);
+        }
+        System.out.println("Type in the name of your new " + gender + (mating ? " baby:" : " animal:"));
         String nameOfAnimal = input.nextLine();
         switch (choice){
             case "1", "cow" -> player.animals.add(new Cow(nameOfAnimal, gender));

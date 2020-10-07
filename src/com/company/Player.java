@@ -51,7 +51,7 @@ public class Player {
 
         if(okFoodChoice) {
             for (String key : foods.keySet()) {
-                if(foods.get(choice) == null){ // VAD KAN MAN HA HÄR SÅ DEN FATTAR??????
+                if(foods.get(choice) == null){
                     System.out.println("You can't feed with what you don't have!");
                     return false;
                 } else if (choice.equals(key)) {

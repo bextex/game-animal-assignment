@@ -79,26 +79,10 @@ public class Game {
         } while(activeRound);
     }
 
-    public void mateAnimal(Player player) throws Exception {
+    public void mateAnimal(Player player) {
         System.out.println("So you want to try mate your animals. Not everyone succeeds...but good luck!");
-        System.out.println("Type in the name of your first animal:");
-        String animalName1 = input.nextLine().toLowerCase();
-        System.out.println("Type in the name of the second animal:");
-        String animalName2 = input.nextLine().toLowerCase();
-        if(player.animals.size() < 2) {
-            System.out.println("You don't have enough animals to mate. You should buy more!");
-            return;
-        }
-        for(Animal a : player.animals){
-            if(animalName1.equals(a.name.toLowerCase())){
-                this.animal = a;
-            }
-            for(Animal b : player.animals){
-                if(animalName2.equals(b.name.toLowerCase())){
-                    this.animal2 = b;
-                }
-            }
-        }
+        this.animal = store.animalExist(player);
+        this.animal2 = store.animalExist(player);
         if(!animal.getClass().equals(animal2.getClass())){
             System.out.println("Animals with different races cannot mate...");
             return;
@@ -123,20 +107,8 @@ public class Game {
             sleep(500);
             int countingBabies = 1;
             do {
-                boolean gender = random.nextBoolean();
-                String genderOfAnimal = gender ? "female" : "male";
-                System.out.println("What do you want to name the " + genderOfAnimal + " " + (numOfBabies < 2 ? "baby?" : "baby nr " + countingBabies + "?"));
-                String babyAnimalName = input.nextLine();
-                String raceAnimal = this.animal.getClass().getSimpleName().toLowerCase();
-                switch (raceAnimal) {
-                    case "cow" -> baby = new Cow(babyAnimalName, genderOfAnimal);
-                    case "fish" -> baby = new Fish(babyAnimalName, genderOfAnimal);
-                    case "horse" -> baby = new Horse(babyAnimalName, genderOfAnimal);
-                    case "rabbit" -> baby = new Rabbit(babyAnimalName, genderOfAnimal);
-                    case "ostrich" -> baby = new Ostrich(babyAnimalName, genderOfAnimal);
-                    default -> throw new Exception("Not successful!");
-                }
-                player.animals.add(baby);
+                System.out.println("----- Baby" + (" nr " + countingBabies) + " -----");
+                store.animalSelection(player, true);
                 numOfBabies--;
                 countingBabies++;
             } while(numOfBabies > 0);
