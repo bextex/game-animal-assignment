@@ -141,7 +141,7 @@ public class Store {
     }
 
     public boolean makeTheTransaction(Player player, double cost, boolean buy){
-        if(player.money < cost){
+        if(buy && player.money < cost){
             System.out.println("You can't afford it!\n");
             return false;
         }
