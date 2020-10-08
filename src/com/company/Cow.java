@@ -7,7 +7,8 @@ public class Cow extends Animal { // Cow inherent from Animal
     private static boolean eatVegetable = true;
     private double health;
     public int price = 100;
-    protected int age = 20;
+    protected int maxAge = 20;
+    public int currentAge;
 
     public Cow(String name, String gender){
         super(name, gender);
@@ -18,12 +19,7 @@ public class Cow extends Animal { // Cow inherent from Animal
         super.eatGrain = Cow.eatGrain;
         super.eatMeat = Cow.eatMeat;
         super.eatVegetable = Cow.eatVegetable;
-        super.age = this.age;
+        super.maxAge = this.maxAge;
+        super.currentAge = this.currentAge;
     }
-
-    // Testing to create a cow with health from superclass Animal
-    /*public void create(String name, String gender, int health){
-        System.out.println("The " + gender + " cow, " + name + ", is now in your possession " + "and " +
-                (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
-    }*/
 }

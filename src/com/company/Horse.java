@@ -9,7 +9,8 @@ public class Horse extends Animal { // Horse inherent from Animal
     private static boolean eatGrain = false;
     private static boolean eatMeat = false;
     private static boolean eatVegetable = true;
-    protected int age = 25;
+    protected int maxAge = 25;
+    public int currentAge;
 
     public Horse(String name, String gender){
         super(name, gender);
@@ -20,6 +21,7 @@ public class Horse extends Animal { // Horse inherent from Animal
         super.eatGrain = Horse.eatGrain;
         super.eatMeat = Horse.eatMeat;
         super.eatVegetable = Horse.eatVegetable;
-        super.age = this.age;
+        super.maxAge = this.maxAge;
+        super.currentAge = this.currentAge;
     }
 }

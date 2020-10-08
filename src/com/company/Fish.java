@@ -9,7 +9,8 @@ public class Fish extends Animal{ // Fish inherent from Animal
     private static boolean eatVegetable = false;
     private double health;
     public int price = 50;
-    protected int age = 10;
+    protected int maxAge = 10;
+    public int currentAge;
 
     public Fish(String name, String gender){
         super(name, gender);
@@ -20,6 +21,7 @@ public class Fish extends Animal{ // Fish inherent from Animal
         super.eatGrain = Fish.eatGrain;
         super.eatMeat = Fish.eatMeat;
         super.eatVegetable = Fish.eatVegetable;
-        super.age = this.age;
+        super.maxAge = this.maxAge;
+        super.currentAge = this.currentAge;
     }
 }

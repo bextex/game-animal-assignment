@@ -12,7 +12,7 @@ public class Game {
     Store store = new Store();
     Player player;
     Animal animal, animal2;
-    String animalName;
+    String animalName, causeOfDeath;
     boolean activeRound = true;
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
@@ -120,6 +120,9 @@ public class Game {
         for(Animal a : player.animals){
             int negativeHealthValue = random.nextInt(negativeHealthValues.length);
             a.health = a.health - negativeHealthValues[negativeHealthValue];
+            if(a.health <= 0){
+                causeOfDeath = "NEGLECTED CARE";
+            }
         }
     }
 
@@ -139,23 +142,28 @@ public class Game {
                         boolean saveLife = veterinary();
                         if(!saveLife){
                             a.health = 0;
+                            causeOfDeath = "VETERINARY CARE";
                         }
                     } else {
                         a.health = 0;
+                        causeOfDeath = "SPENDING TO MUCH MONEY";
                     }
                 } else {
                     a.health = 0;
+                    causeOfDeath = "NEGLECTED CARE";
                 }
             }
         }
     }
 
-    public void animalAging(Player player){
-
-
-
+    public void animalAging(Player player) {
+        for (Animal a : player.animals) {
+                a.currentAge = a.currentAge + (a.maxAge < 10 ? 1 : (a.maxAge / 10));
+            if(a.currentAge >= a.maxAge){
+                causeOfDeath = "OLD AGE";
+            }
+        }
     }
-
 
     public boolean veterinary(){
         boolean gettingBetter = random.nextBoolean();
@@ -174,13 +182,14 @@ public class Game {
         System.out.println("Money: " + player.money + " kr\n");
         System.out.println("Animals:" + (player.animals.size() == 0 ? " You don't own any animals." : ""));
         healthDecreasing(player);
-        //animalAging(player);
+        animalAging(player);
         sickness(player);
         for(Animal a : player.animals){
-            System.out.printf("%s - %s %s. %s\n", a.getClass().getSimpleName(), a.name, (a.gender.equals("female") ? "(f)" : "(m)"), (a.health <= 0 ? "HAS DIED!!! x_x" : "Health: " + (int) a.health));
+            System.out.printf("%s - %s %s - %s\n", a.getClass().getSimpleName(), a.name, (a.gender.equals("female") ? "(f)" : "(m)"),
+                    (a.health <= 0 || a.currentAge >= a.maxAge ? ("HAS DIED OF " + causeOfDeath + "!!! x_x") : "(age: " + a.currentAge + ", " + "health: " + (int) a.health + ")"));
         }
         System.out.println();
-        player.animals.removeIf(a -> a.health <= 0);
+        player.animals.removeIf(a -> a.health <= 0 || a.currentAge >= a.maxAge);
         System.out.println("Foods:" + (player.foods.size() == 0 ? " You don't own any food." : ""));
         for(String key : player.foods.keySet()){
             System.out.println(key + " - " + player.foods.get(key) + " kg");
