@@ -11,11 +11,9 @@ public class Game {
     Scanner input = new Scanner(System.in);
     Store store = new Store();
     Player player;
-    Animal animal, animal2, baby;
-    Food food;
-    String animalName, gender;
+    Animal animal, animal2;
+    String animalName;
     boolean activeRound = true;
-    String[] validNumbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
     //Player currentPlayer = Player.players.get(0);
@@ -117,18 +115,63 @@ public class Game {
         }
     }
 
+    public void healthDecreasing(Player player){
+        int[] negativeHealthValues = {10, 20, 30};
+        for(Animal a : player.animals){
+            int negativeHealthValue = random.nextInt(negativeHealthValues.length);
+            a.health = a.health - negativeHealthValues[negativeHealthValue];
+        }
+        player.animals.removeIf(a -> a.health <= 0);
+    }
+
+    public void sickness(Player player){
+        int[] chanceOfSicknessValues = new int[5];
+        for(Animal a : player.animals){
+            int chanceOfSicknessValue = random.nextInt(chanceOfSicknessValues.length);
+            if(chanceOfSicknessValue == 0){
+                System.out.println(a.name + " has gotten sick! Do you wanna pay for veterinary cost to try to save " + (a.gender.equals("female") ? "her" : "him") + "?");
+                System.out.println("Yes/no?");
+                String helpingOut = input.nextLine().toLowerCase();
+                boolean wantsToHelp = helpingOut.equals("yes");
+                if(wantsToHelp){
+                    double payForVeterinary = veterinaryCost(a);
+                    store.makeTheTransaction(player, payForVeterinary, true);
+                }
+                boolean saveLife = veterinary(true, wantsToHelp);
+                if(!saveLife){
+                    a.health = 0;
+                }
+            }
+        }
+    }
+
+    public void animalAging(){
+
+    }
+
+
+    public boolean veterinary(boolean needOfHelp, boolean playerHelp){
+        boolean gettingBetter = random.nextBoolean();
+        if(needOfHelp && playerHelp){
+            System.out.println(gettingBetter ? "Yey, you manage to save your animal!" : "The treatment didn't help. Your animal passed away");
+            return gettingBetter;
+        }
+        return false;
+    }
+
+    public double veterinaryCost(Animal animal){
+        return animal.price * 0.8;
+    }
+
     public void playersHolding(Player player){
         System.out.println("These are your current holdings:");
         System.out.println("------------------------------------");
         System.out.println("Money: " + player.money + " kr\n");
         System.out.println("Animals:" + (player.animals.size() == 0 ? " You don't own any animals." : ""));
-        int[] negativeHealthValues = {10, 20, 30};
+        healthDecreasing(player);
         for(Animal a : player.animals){
-            int negativeHealthValue = random.nextInt(negativeHealthValues.length);
-            a.health = a.health - negativeHealthValues[negativeHealthValue];
             System.out.printf("%s - %s %s. %s\n", a.getClass().getSimpleName(), a.name, (a.gender.equals("female") ? "(f)" : "(m)"), (a.health <= 0 ? "HAS DIED!!! x_x" : "Health: " + (int) a.health));
         }
-        player.animals.removeIf(a -> a.health <= 0);
         System.out.println();
         System.out.println("Foods:" + (player.foods.size() == 0 ? " You don't own any food." : ""));
         for(String key : player.foods.keySet()){
