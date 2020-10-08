@@ -12,7 +12,7 @@ public class Game {
     Store store = new Store();
     Player player;
     Animal animal, animal2;
-    String animalName, causeOfDeath;
+    String animalName, causeOfDeath, causeOfDeathHealth, causeOfDeathAging, causeOfDeathSickness;
     boolean activeRound = true;
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
@@ -121,7 +121,7 @@ public class Game {
             int negativeHealthValue = random.nextInt(negativeHealthValues.length);
             a.health = a.health - negativeHealthValues[negativeHealthValue];
             if(a.health <= 0){
-                causeOfDeath = "NEGLECTED CARE";
+                causeOfDeathHealth = "NEGLECTED CARE";
             }
         }
     }
@@ -142,15 +142,15 @@ public class Game {
                         boolean saveLife = veterinary();
                         if(!saveLife){
                             a.health = 0;
-                            causeOfDeath = "VETERINARY CARE";
+                            setCauseOfDeath("SICKNESS");
                         }
                     } else {
                         a.health = 0;
-                        causeOfDeath = "SPENDING TO MUCH MONEY";
+                        setCauseOfDeath("SICKNESS");
                     }
                 } else {
                     a.health = 0;
-                    causeOfDeath = "NEGLECTED CARE";
+                    setCauseOfDeath("SICKNESS");
                 }
             }
         }
@@ -160,7 +160,7 @@ public class Game {
         for (Animal a : player.animals) {
                 a.currentAge = a.currentAge + (a.maxAge < 10 ? 1 : (a.maxAge / 10));
             if(a.currentAge >= a.maxAge){
-                causeOfDeath = "OLD AGE";
+                setCauseOfDeath("OLD AGE");
             }
         }
     }
@@ -186,7 +186,7 @@ public class Game {
         sickness(player);
         for(Animal a : player.animals){
             System.out.printf("%s - %s %s - %s\n", a.getClass().getSimpleName(), a.name, (a.gender.equals("female") ? "(f)" : "(m)"),
-                    (a.health <= 0 || a.currentAge >= a.maxAge ? ("HAS DIED OF " + causeOfDeath + "!!! x_x") : "(age: " + a.currentAge + ", " + "health: " + (int) a.health + ")"));
+                    (a.health <= 0 || a.currentAge >= a.maxAge ? ("HAS DIED OF " + getCauseOfDeath() + "!!! x_x") : "(age: " + a.currentAge + ", " + "health: " + (int) a.health + ")"));
         }
         System.out.println();
         player.animals.removeIf(a -> a.health <= 0 || a.currentAge >= a.maxAge);
@@ -219,4 +219,15 @@ public class Game {
         }
         catch(Exception ignore){}
     }
+
+    private void setCauseOfDeath(String death){
+        this.causeOfDeath = death;
+    }
+
+
+    private String getCauseOfDeath(){
+        return this.causeOfDeath;
+    }
+
+
 }
