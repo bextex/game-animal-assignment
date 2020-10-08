@@ -131,7 +131,8 @@ public class Game {
         for(Animal a : player.animals){
             int chanceOfSicknessValue = random.nextInt(chanceOfSicknessValues.length);
             if(chanceOfSicknessValue == 0){
-                System.out.println(a.name + " has gotten sick! Do you wanna pay for veterinary cost to try to save " + (a.gender.equals("female") ? "her" : "him") + "?");
+                System.out.println(a.name + " has gotten sick! Do you wanna pay for veterinary cost " + getVeterinaryCost(a) + " kr,"
+                        + " to try to save " + (a.gender.equals("female") ? "her" : "him") + "?");
                 System.out.println("Yes/No?");
                 String helpingOut = input.nextLine().toLowerCase();
                 boolean wantsToHelp = helpingOut.equals("yes");
@@ -171,6 +172,10 @@ public class Game {
         return gettingBetter;
     }
 
+    public double getVeterinaryCost(Animal animal){
+        return veterinaryCost(animal);
+    }
+
     public double veterinaryCost(Animal animal){
         return animal.price * 1.5;
     }
@@ -186,7 +191,7 @@ public class Game {
         sickness(player);
         for(Animal a : player.animals){
             System.out.printf("%s - %s %s - %s\n", a.getClass().getSimpleName(), a.name, (a.gender.equals("female") ? "(f)" : "(m)"),
-                    (a.health <= 0 || a.currentAge >= a.maxAge ? ("HAS DIED OF " + getCauseOfDeath() + "!!! x_x") : "(age: " + a.currentAge + ", " + "health: " + (int) a.health + ")"));
+                    (a.health <= 0 || a.currentAge >= a.maxAge ? ("HAS DIED OF " + causeOfDeath + "!!! x_x") : "(age: " + a.currentAge + ", " + "health: " + (int) a.health + ")"));
         }
         System.out.println();
         player.animals.removeIf(a -> a.health <= 0 || a.currentAge >= a.maxAge);
@@ -223,11 +228,5 @@ public class Game {
     private void setCauseOfDeath(String death){
         this.causeOfDeath = death;
     }
-
-
-    private String getCauseOfDeath(){
-        return this.causeOfDeath;
-    }
-
 
 }
