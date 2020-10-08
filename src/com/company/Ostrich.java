@@ -9,6 +9,7 @@ public class Ostrich extends Animal { // Ostrich inherent from Animal
     private static boolean eatVegetable = true;
     private double health;
     public int price = 150;
+    protected int age = 80;
 
     public Ostrich(String name, String gender){
         super(name, gender);
@@ -19,11 +20,6 @@ public class Ostrich extends Animal { // Ostrich inherent from Animal
         super.eatGrain = Ostrich.eatGrain;
         super.eatMeat = Ostrich.eatMeat;
         super.eatVegetable = Ostrich.eatVegetable;
-        //create(this.name, this.gender, this.health);
+        super.age = this.age;
     }
-
-   /* public void create(String name, String gender, int health){
-        System.out.println("The " + gender + " ostrich, " + name + ", is now in your possession " + "and " +
-                (gender.equals("female") ? "she" : "he") + " has full health " + "(" + health + ").");
-    }*/
 }
