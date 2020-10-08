@@ -61,7 +61,7 @@ public class Game {
         }
     }
 
-    public void feedAnimal(Player player) throws Exception {
+    public void feedAnimal(Player player){
         do {
             this.animal = store.animalExist(player);
             this.animalName = store.animalName;
