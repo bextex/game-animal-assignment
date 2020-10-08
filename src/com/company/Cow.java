@@ -9,7 +9,7 @@ public class Cow extends Animal { // Cow inherent from Animal
         super(name, gender);
         super.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
         super.gender = gender.toLowerCase();
-        super.health = this.health;
+        this.health = super.health;
         super.price = 100;
         super.eatGrain = true;
         super.eatMeat = false;
