@@ -101,7 +101,7 @@ public class Game {
         }
         if(matingOK){
             System.out.println("Congratulations, the mating was successful!");
-            System.out.println(animal.name + " and " + animal2.name + " got " + numOfBabies + (numOfBabies >= 2 ? " babies." : " baby."));
+            System.out.println(animal.name + " and " + animal2.name + " got " + numOfBabies + (numOfBabies >= 2 ? " babies." : " baby.")+ "\n");
             sleep(500);
             int countingBabies = 1;
             do {
@@ -121,7 +121,6 @@ public class Game {
             int negativeHealthValue = random.nextInt(negativeHealthValues.length);
             a.health = a.health - negativeHealthValues[negativeHealthValue];
         }
-        player.animals.removeIf(a -> a.health <= 0);
     }
 
     public void sickness(Player player){
@@ -130,49 +129,58 @@ public class Game {
             int chanceOfSicknessValue = random.nextInt(chanceOfSicknessValues.length);
             if(chanceOfSicknessValue == 0){
                 System.out.println(a.name + " has gotten sick! Do you wanna pay for veterinary cost to try to save " + (a.gender.equals("female") ? "her" : "him") + "?");
-                System.out.println("Yes/no?");
+                System.out.println("Yes/No?");
                 String helpingOut = input.nextLine().toLowerCase();
                 boolean wantsToHelp = helpingOut.equals("yes");
                 if(wantsToHelp){
                     double payForVeterinary = veterinaryCost(a);
-                    store.makeTheTransaction(player, payForVeterinary, true);
-                }
-                boolean saveLife = veterinary(true, wantsToHelp);
-                if(!saveLife){
+                    boolean moneyForVeterinary = store.makeTheTransaction(player, payForVeterinary, true);
+                    if(moneyForVeterinary){
+                        boolean saveLife = veterinary();
+                        if(!saveLife){
+                            a.health = 0;
+                        }
+                    } else {
+                        a.health = 0;
+                    }
+                } else {
                     a.health = 0;
                 }
             }
         }
     }
 
-    public void animalAging(){
+    public void animalAging(Player player){
+
+
 
     }
 
 
-    public boolean veterinary(boolean needOfHelp, boolean playerHelp){
+    public boolean veterinary(){
         boolean gettingBetter = random.nextBoolean();
-        if(needOfHelp && playerHelp){
-            System.out.println(gettingBetter ? "Yey, you manage to save your animal!" : "The treatment didn't help. Your animal passed away");
-            return gettingBetter;
-        }
-        return false;
+        System.out.println(gettingBetter ? "...And, you manage to save your animal!\n" : "...But, the treatment didn't help. Your animal passed away\n");
+        return gettingBetter;
     }
 
     public double veterinaryCost(Animal animal){
-        return animal.price * 0.8;
+        return animal.price * 1.5;
     }
 
     public void playersHolding(Player player){
+        sleep(1000);
         System.out.println("These are your current holdings:");
         System.out.println("------------------------------------");
         System.out.println("Money: " + player.money + " kr\n");
         System.out.println("Animals:" + (player.animals.size() == 0 ? " You don't own any animals." : ""));
         healthDecreasing(player);
+        //animalAging(player);
+        sickness(player);
         for(Animal a : player.animals){
             System.out.printf("%s - %s %s. %s\n", a.getClass().getSimpleName(), a.name, (a.gender.equals("female") ? "(f)" : "(m)"), (a.health <= 0 ? "HAS DIED!!! x_x" : "Health: " + (int) a.health));
         }
         System.out.println();
+        player.animals.removeIf(a -> a.health <= 0);
         System.out.println("Foods:" + (player.foods.size() == 0 ? " You don't own any food." : ""));
         for(String key : player.foods.keySet()){
             System.out.println(key + " - " + player.foods.get(key) + " kg");
