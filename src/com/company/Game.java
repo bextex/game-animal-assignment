@@ -16,6 +16,7 @@ public class Game {
     boolean activeRound = true;
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
+    int n = 1;
     //Player currentPlayer = Player.players.get(0);
 
     public Game() throws Exception {
@@ -23,15 +24,14 @@ public class Game {
         System.out.println("Type in number of players (1-4)");
         String choice = input.nextLine();
         setPlayers(choice);
-        this.player = Player.players.get(0);
         do {
             sleep(500);
+            currentPlayer();
             System.out.println(round + " rounds left.");
             System.out.println();
             System.out.println(player.name + " is your turn!");
             playersHolding(player);
             System.out.println("------------------------------------");
-
             menu();
             String nextStep = input.nextLine();
             switch (nextStep) {
@@ -50,6 +50,19 @@ public class Game {
                 summarizeBelongings();
             }
         } while(round > 0);
+    }
+
+    public Player currentPlayer(){
+        if (!firstRound) {
+            if (n == Player.players.size()) {
+                n = 1;
+            } else {
+                n++;
+            }
+        }
+        this.player = Player.players.get(n-1);
+        firstRound = false;
+        return this.player;
     }
 
     public void setPlayers(String playerNum){
