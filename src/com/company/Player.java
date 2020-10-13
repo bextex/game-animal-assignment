@@ -48,7 +48,6 @@ public class Player {
 
     public boolean removeFood(String animalName, String choice, int foodInKg) {
         boolean okFoodChoice = animalEatFood(convertStringToFood(choice), animalName);
-
         if(okFoodChoice) {
             for (String key : foods.keySet()) {
                 if(foods.get(choice) == null){
@@ -74,12 +73,16 @@ public class Player {
     }
 
     public void cleanList(){
+        ArrayList<String> keysToDelete = new ArrayList<>();
         int value;
-        for(String key : foods.keySet()){ // ERROORRRR!!! When same animal eats two time in a row so the food runs out (2 kg first round and 3 kg second round) And there's total 5 kg.
+        for(String key : foods.keySet()){
             value = foods.get(key);
             if(value == 0){
-                foods.remove(key);
+                keysToDelete.add(key);
             }
+        }
+        for(String key : keysToDelete){
+            foods.remove(key);
         }
     }
 }
