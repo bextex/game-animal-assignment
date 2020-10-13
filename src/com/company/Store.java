@@ -70,39 +70,58 @@ public class Store {
         } while(activeRound);
     }
 
-    public void sellAnimalToPlayer(Player player){
-        System.out.println("Which player do you wanna trade with?");
-        String playerName = input.nextLine().toLowerCase();
-        for(Player p : Player.players){
-            if(p.name.toLowerCase().equals(playerName)){
-                playerToTradeWith = p;
+    public void sellAnimalToPlayer(Player player) {
+        do {
+            System.out.println("Which player do you wanna trade with?");
+            String playerName = input.nextLine().toLowerCase();
+            for (Player p : Player.players) {
+                if (p.name.toLowerCase().equals(playerName)) {
+                    playerToTradeWith = p;
+                }
             }
-        }
-        if (playerToTradeWith.animals.size() == 0) {
-            System.out.println(playerToTradeWith.name + " don't own any animals at the moment.");
-        } else {
-            System.out.println(playerToTradeWith.name + " owns: ");
-            for (Animal a : playerToTradeWith.animals) {
-                System.out.println("- " + a.name);
+            System.out.println("ANIMAL NAME" + " ".repeat(10) + "BUYING/SELLING PRICE");
+            if (player.animals.size() == 0) {
+                System.out.println(player.name + " don't own any animals.");
+            } else {
+                for (Animal a : player.animals) {
+                    System.out.println("- " + a.name + " ".repeat(15) + (a.price - (a.health * a.currentAge)) + " kr");
+                }
             }
-        }
-
-
-        System.out.println("Do you wanna buy[1] or sell[2]?");
-        String choice = Prompt.inputCheck(input.nextLine(), 1, 2);
-        boolean buy;
-        switch (choice.toLowerCase()){
-            case "1", "buy" -> buy = true;
-            case "2", "sell" -> buy = false;
-            default -> System.out.println("Not a valid choice!");
-        }
-
-
-        animalExist(playerToTradeWith);
-        player.animals.add(this.animal);
-        playerToTradeWith.animals.remove(this.animal);
-        int cost = animal.currentAge * animal.price;
-        makeTheTransaction(player, cost, true);
+            System.out.println();
+            if (playerToTradeWith.animals.size() == 0) {
+                System.out.println(playerToTradeWith.name + " don't own any animals.");
+            } else {
+                for (Animal a : playerToTradeWith.animals) {
+                    System.out.println("- " + a.name + " ".repeat(15) + (a.price - (a.health * a.currentAge)) + " kr");
+                }
+            }
+            System.out.println("Do you want to sell[1], buy[2] or exit[3]?");
+            String choice = Prompt.inputCheck(input.nextLine(), 1, 3);
+            switch (choice) {
+                case "1", "sell" -> {animalExist(player);
+                    player.animals.remove(this.animal);
+                    playerToTradeWith.animals.add(this.animal);
+                    choice = "1";
+                }
+                case "2", "buy" -> {animalExist(playerToTradeWith);
+                    player.animals.add(this.animal);
+                    playerToTradeWith.animals.remove(this.animal);
+                    choice = "2";
+                }
+                case "3", "exit" -> activeRound = false;
+                default -> System.out.println("Not a valid choice!");
+            }
+            double cost = (animal.price - (animal.health * animal.currentAge)) <= 0 ? 0 : (animal.price - (animal.health * animal.currentAge));
+            System.out.println("You can get " + cost + " for " + animal.name + ".");
+            if(choice.equals("1")){
+                System.out.println(player.name + ", "  + makeTheTransaction(player, cost, false));
+                System.out.println(playerToTradeWith.name + ", " + makeTheTransaction(playerToTradeWith, cost, true));
+            } else{
+                makeTheTransaction(player, cost, true);
+                makeTheTransaction(playerToTradeWith, cost, false);
+            }
+            activeRound = continueOrExit();
+        } while (activeRound);
     }
 
     public Animal animalExist(Player player){
