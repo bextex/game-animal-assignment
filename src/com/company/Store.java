@@ -111,14 +111,14 @@ public class Store {
                 case "3", "exit" -> activeRound = false;
                 default -> System.out.println("Not a valid choice!");
             }
-            double cost = (animal.price - (animal.health * animal.currentAge)) <= 0 ? 0 : (animal.price - (animal.health * animal.currentAge));
+            double cost = (animal.price - (animal.health * animal.currentAge)) > 0 ? animal.price - (animal.health * animal.currentAge) : 0;
             System.out.println("You can get " + cost + " for " + animal.name + ".");
             if(choice.equals("1")){
                 System.out.println(player.name + ", "  + makeTheTransaction(player, cost, false));
                 System.out.println(playerToTradeWith.name + ", " + makeTheTransaction(playerToTradeWith, cost, true));
             } else{
-                makeTheTransaction(player, cost, true);
-                makeTheTransaction(playerToTradeWith, cost, false);
+                System.out.println(player.name + ", " + makeTheTransaction(player, cost, true));
+                System.out.println(playerToTradeWith.name + ", " + makeTheTransaction(playerToTradeWith, cost, false));
             }
             activeRound = continueOrExit();
         } while (activeRound);

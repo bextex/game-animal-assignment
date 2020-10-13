@@ -95,7 +95,7 @@ public class Game {
                 double newHealth = animal.health + (kgOfFood * 10);
                 animal.health = Math.min(newHealth, 100);
             }
-            player.cleanList(); // BEHÖVS DENNA???
+            player.cleanList();
             activeRound = store.continueOrExit();
         } while(activeRound);
     }
