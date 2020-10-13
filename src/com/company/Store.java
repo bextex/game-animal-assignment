@@ -54,7 +54,7 @@ public class Store {
             System.out.println("Type in how many kilos of food you want.");
             int foodInKg = 0;
             try {
-                foodInKg = Integer.parseInt(input.nextLine());
+                foodInKg = Integer.parseInt(Prompt.inputCheck(input.nextLine(), 1, 200));
             } catch (Exception ignore) {}
             if(foodInKg <= 0){
                 System.out.println("Type in a number bigger than 0!");
@@ -78,23 +78,26 @@ public class Store {
                 playerToTradeWith = p;
             }
         }
-        /*System.out.println("Do you wanna buy[1] or sell[2]?");
-        ///Automatisk inskick till prompt???
-        String choice = input.nextLine();
-        if(choice.equals("1")){
-
-        }*/
-
-
-
-        System.out.println(playerName + " owns: ");
-        if(playerToTradeWith.animals.size() == 0){
+        if (playerToTradeWith.animals.size() == 0) {
             System.out.println(playerToTradeWith.name + " don't own any animals at the moment.");
         } else {
+            System.out.println(playerToTradeWith.name + " owns: ");
             for (Animal a : playerToTradeWith.animals) {
                 System.out.println("- " + a.name);
             }
         }
+
+
+        System.out.println("Do you wanna buy[1] or sell[2]?");
+        String choice = Prompt.inputCheck(input.nextLine(), 1, 2);
+        boolean buy;
+        switch (choice.toLowerCase()){
+            case "1", "buy" -> buy = true;
+            case "2", "sell" -> buy = false;
+            default -> System.out.println("Not a valid choice!");
+        }
+
+
         animalExist(playerToTradeWith);
         player.animals.add(this.animal);
         playerToTradeWith.animals.remove(this.animal);
@@ -119,7 +122,7 @@ public class Store {
         String gender;
         if(!mating) {
             System.out.println("Choose cow[1], fish[2], horse[3], rabbit[4] or ostrich[5].");
-            choice = input.nextLine();
+            choice = Prompt.inputCheck(input.nextLine(), 1, 5);
             gender = genderOfAnimal(true);
         } else {
             choice = this.animal.getClass().getSimpleName().toLowerCase();
@@ -140,7 +143,7 @@ public class Store {
     public String genderOfAnimal(boolean choosingGender){
         if(choosingGender){
             System.out.println("Choose female[1] or male[2]");
-            String genderChoice = input.nextLine().toLowerCase();
+            String genderChoice = Prompt.inputCheck(input.nextLine().toLowerCase(), 1, 2);
             switch (genderChoice){
                 case "1", "female" -> gender = "female";
                 case "2", "male" -> gender = "male";
@@ -159,7 +162,7 @@ public class Store {
 
     public String foodSelection(){
         System.out.println("Choose grass[1], corn[2] or meat[3].");
-        String choice = input.nextLine();
+        String choice = Prompt.inputCheck(input.nextLine(), 1, 3);
         switch (choice){
             case "1", "grass" -> choice = "grass";
             case "2", "corn" -> choice = "corn";
@@ -189,7 +192,7 @@ public class Store {
 
     public boolean continueOrExit(){
         System.out.println("Do you want to continue[1] or exit[2]?");
-        String choice = input.nextLine().toLowerCase();
+        String choice = Prompt.inputCheck(input.nextLine().toLowerCase(), 1, 2);
         boolean continueRound;
         switch (choice){
             case "1", "continue" -> continueRound = true;

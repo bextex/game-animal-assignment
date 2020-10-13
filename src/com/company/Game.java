@@ -18,7 +18,7 @@ public class Game {
     public Game() throws Exception {
         System.out.println("Welcome to the Game - PiggyBank!");
         System.out.println("Type in number of players (1-4)");
-        String choice = input.nextLine();
+        String choice = Prompt.inputCheck(input.nextLine(), 1, 4);
         setPlayers(choice);
         do {
             sleep(500);
@@ -29,7 +29,7 @@ public class Game {
             playersHolding(player);
             System.out.println("------------------------------------");
             menu();
-            String nextStep = input.nextLine();
+            String nextStep = Prompt.inputCheck(input.nextLine(), 1, 7);
             if(Player.players.size() >= 2) {
                 switch (nextStep) {
                     case "1" -> store.buyAnimal(player);
@@ -87,15 +87,15 @@ public class Game {
         do {
             this.animal = store.animalExist(player);
             this.animalName = store.animalName;
-            String foodSelection = store.foodSelection();
+            String foodSelection = Prompt.inputCheck(store.foodSelection(), 1, 3);
             System.out.println(animal.name + " has " + animal.health + " in health and only need " + ((100 - animal.health) / 10) + " kg to have full strength!");
             System.out.println("How many kilo of food do you wanna feed " + animalName + " with?");
-            int kgOfFood = Integer.parseInt(input.nextLine());
+            int kgOfFood = Integer.parseInt(Prompt.inputCheck(input.nextLine(), 1, 200));
             if(player.removeFood(animalName, foodSelection, kgOfFood)){
                 double newHealth = animal.health + (kgOfFood * 10);
                 animal.health = Math.min(newHealth, 100);
             }
-            player.cleanList();
+            player.cleanList(); // BEHÖVS DENNA???
             activeRound = store.continueOrExit();
         } while(activeRound);
     }
@@ -156,9 +156,9 @@ public class Game {
             if(chanceOfSicknessValue == 0){
                 System.out.println(a.name + " has gotten sick! Do you wanna pay for veterinary cost " + getVeterinaryCost(a) + " kr,"
                         + " to try to save " + (a.gender.equals("female") ? "her" : "him") + "?");
-                System.out.println("Yes/No?");
-                String helpingOut = input.nextLine().toLowerCase();
-                boolean wantsToHelp = helpingOut.equals("yes");
+                System.out.println("Yes[1] / No[2]?");
+                String helpingOut = Prompt.inputCheck(input.nextLine().toLowerCase(), 1,2);
+                boolean wantsToHelp = helpingOut.equals("1") || helpingOut.contains("yes") || helpingOut.equals("y");
                 if(wantsToHelp){
                     double payForVeterinary = veterinaryCost(a);
                     boolean moneyForVeterinary = store.makeTheTransaction(player, payForVeterinary, true);
@@ -246,12 +246,7 @@ public class Game {
             System.out.println(p.name + " has a total of " + p.money + " kr.");
         }
         Collections.sort(winnerMoney);
-        for(int money : winnerMoney){
-            System.out.println();
-            for(Player p : Player.players){
 
-            }
-        }
     }
 
     private void sleep(int ms){
