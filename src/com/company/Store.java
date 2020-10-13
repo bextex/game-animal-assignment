@@ -13,10 +13,11 @@ public class Store {
     String animalName, gender;
     Animal animal;
     Food food;
+    Player playerToTradeWith;
     boolean activeRound = true;
 
     public void buyAnimal(Player player){
-        System.out.println("----WELCOME TO THE STORE FOR BUYING ANIMALS----\n");
+        System.out.println("---- WELCOME TO THE STORE FOR BUYING ANIMALS ----\n");
         do {
             animalSelection(player, false);
             this.animal = player.animals.get(player.animals.size() - 1);
@@ -29,7 +30,7 @@ public class Store {
     }
 
     public void sellAnimal(Player player){
-        System.out.println("----WELCOME TO THE STORE FOR SELLING ANIMALS----\n");
+        System.out.println("---- WELCOME TO THE STORE FOR SELLING ANIMALS ----\n");
         do {
             Animal existAnimal = animalExist(player);
             if(existAnimal != null){
@@ -47,7 +48,7 @@ public class Store {
     }
 
     public void buyFood(Player player) throws Exception {
-        System.out.println("----WELCOME TO THE STORE FOR BUYING FOOD----\n");
+        System.out.println("---- WELCOME TO THE STORE FOR BUYING FOOD ---\n");
         do {
             String choice = foodSelection();
             System.out.println("Type in how many kilos of food you want.");
@@ -67,6 +68,38 @@ public class Store {
             }
             activeRound = continueOrExit();
         } while(activeRound);
+    }
+
+    public void sellAnimalToPlayer(Player player){
+        System.out.println("Which player do you wanna trade with?");
+        String playerName = input.nextLine().toLowerCase();
+        for(Player p : Player.players){
+            if(p.name.toLowerCase().equals(playerName)){
+                playerToTradeWith = p;
+            }
+        }
+        /*System.out.println("Do you wanna buy[1] or sell[2]?");
+        ///Automatisk inskick till prompt???
+        String choice = input.nextLine();
+        if(choice.equals("1")){
+
+        }*/
+
+
+
+        System.out.println(playerName + " owns: ");
+        if(playerToTradeWith.animals.size() == 0){
+            System.out.println(playerToTradeWith.name + " don't own any animals at the moment.");
+        } else {
+            for (Animal a : playerToTradeWith.animals) {
+                System.out.println("- " + a.name);
+            }
+        }
+        animalExist(playerToTradeWith);
+        player.animals.add(this.animal);
+        playerToTradeWith.animals.remove(this.animal);
+        int cost = animal.currentAge * animal.price;
+        makeTheTransaction(player, cost, true);
     }
 
     public Animal animalExist(Player player){

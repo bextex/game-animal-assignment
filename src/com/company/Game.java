@@ -1,23 +1,19 @@
 package com.company;
 
-import java.sql.SQLOutput;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     Random random = new Random();
     Scanner input = new Scanner(System.in);
+    ArrayList<Integer> winnerMoney = new ArrayList<>();
     Store store = new Store();
     Player player;
     Animal animal, animal2;
-    String animalName, causeOfDeath, causeOfDeathHealth, causeOfDeathAging, causeOfDeathSickness;
+    String animalName, causeOfDeath, causeOfDeathHealth;
     boolean activeRound = true;
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
     int n = 1;
-    //Player currentPlayer = Player.players.get(0);
 
     public Game() throws Exception {
         System.out.println("Welcome to the Game - PiggyBank!");
@@ -34,19 +30,32 @@ public class Game {
             System.out.println("------------------------------------");
             menu();
             String nextStep = input.nextLine();
-            switch (nextStep) {
-                case "1" -> store.buyAnimal(player);
-                case "2" -> store.buyFood(player);
-                case "3" -> feedAnimal(player);
-                case "4" -> mateAnimal(player);
-                case "5" -> store.sellAnimal(player);
-                case "6" -> activeRound = false;
-                default -> System.out.println("That's not an option.");
+            if(Player.players.size() >= 2) {
+                switch (nextStep) {
+                    case "1" -> store.buyAnimal(player);
+                    case "2" -> store.buyFood(player);
+                    case "3" -> feedAnimal(player);
+                    case "4" -> mateAnimal(player);
+                    case "5" -> store.sellAnimal(player);
+                    case "6" -> store.sellAnimalToPlayer(player);
+                    case "7" -> activeRound = false;
+                    default -> System.out.println("That's not an option.");
+                }
+            } else {
+                switch (nextStep) {
+                    case "1" -> store.buyAnimal(player);
+                    case "2" -> store.buyFood(player);
+                    case "3" -> feedAnimal(player);
+                    case "4" -> mateAnimal(player);
+                    case "5" -> store.sellAnimal(player);
+                    case "6" -> activeRound = false;
+                    default -> System.out.println("That's not an option.");
+                }
             }
             round--;
             if(round <= 0){
-                System.out.println("------------------------------------");
-                System.out.println("The game is over!");
+                sleep(500);
+                System.out.println("---- THE GAME IS OVER ----\n");
                 summarizeBelongings();
             }
         } while(round > 0);
@@ -220,15 +229,28 @@ public class Game {
         System.out.println("3. Feed your animal(s).");
         System.out.println("4. Mate your animals.");
         System.out.println("5. Sell your animal(s).");
-        System.out.println("6. Exit round.");
+        if(Player.players.size() >= 2){
+            System.out.println("6. Trade with other players.");
+            System.out.println("7. Exit round.");
+        } else {
+            System.out.println("6. Exit round.");
+        }
     }
 
     public void summarizeBelongings(){
         for(Player p : Player.players){
             for(Animal a : p.animals){
                 p.money = (int) (p.money + (a.price * (a.health / 100)));
+                winnerMoney.add(p.money);
             }
             System.out.println(p.name + " has a total of " + p.money + " kr.");
+        }
+        Collections.sort(winnerMoney);
+        for(int money : winnerMoney){
+            System.out.println();
+            for(Player p : Player.players){
+
+            }
         }
     }
 
