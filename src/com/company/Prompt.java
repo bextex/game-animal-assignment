@@ -7,7 +7,7 @@ public class Prompt {
     static Scanner input = new Scanner(System.in);
 
     static public String inputCheck(String answer, int min, int max){
-        int num; // Get num right
+        int num = 0;
         try{
             num = Integer.parseInt(answer);
         } catch(Exception e){}
