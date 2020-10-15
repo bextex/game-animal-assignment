@@ -14,12 +14,14 @@ public class Game {
     int round = random.nextInt(25) + 5;
     boolean firstRound = true;
     int n = 1;
+    int numOfPlayers;
 
     public Game() throws Exception {
         System.out.println("Welcome to the Game - PiggyBank!");
         System.out.println("Type in number of players (1-4)");
         String choice = Prompt.inputCheck(input.nextLine(), 1, 4);
         setPlayers(choice);
+        numOfPlayers = Player.players.size();
         do {
             sleep(500);
             currentPlayer();
@@ -52,7 +54,11 @@ public class Game {
                     default -> System.out.println("That's not an option.");
                 }
             }
-            round--;
+            if(numOfPlayers == 1){
+                round--;
+                numOfPlayers = Player.players.size();
+            }
+            numOfPlayers--;
             if(round <= 0){
                 sleep(500);
                 System.out.println("---- THE GAME IS OVER ----\n");
