@@ -10,7 +10,7 @@ public class Player {
     LinkedHashMap<String, Integer> foods = new LinkedHashMap<>();
     Food food;
 
-    public String name;
+    public String name, choiceAsString;
     public int money = 1000;
 
     public Player(String name) {
@@ -19,21 +19,26 @@ public class Player {
 
     public Food convertStringToFood(String choice) {
         switch (choice) {
-            case "grass" -> this.food = new Grass();
-            case "corn" -> this.food = new Corn();
-            case "meat" -> this.food = new Meat();
+            case "1" -> this.food = new Grass();
+            case "2" -> this.food = new Corn();
+            case "3" -> this.food = new Meat();
             default -> throw new RuntimeException("Not a valid choice");
         }
         return this.food;
     }
 
     public void addFood(String choice, int foodInKg) {
-        if (!foods.containsKey(choice)) {
-            foods.put(choice, foodInKg);
+        switch (choice){
+            case "1" -> choiceAsString = "Grass";
+            case "2" -> choiceAsString = "Corn";
+            case "3" -> choiceAsString = "Meat";
+        }
+        if (!foods.containsKey(choiceAsString)) {
+            foods.put(choiceAsString, foodInKg);
         } else {
-            int value = foods.get(choice);
+            int value = foods.get(choiceAsString);
             int newValue = value + foodInKg;
-            foods.put(choice, newValue);
+            foods.put(choiceAsString, newValue);
         }
     }
 
@@ -47,10 +52,15 @@ public class Player {
     }
 
     public boolean removeFood(String animalName, String choice, int foodInKg) {
+        switch (choice){
+            case "1" -> choiceAsString = "Grass";
+            case "2" -> choiceAsString = "Corn";
+            case "3" -> choiceAsString = "Meat";
+        }
         boolean okFoodChoice = animalEatFood(convertStringToFood(choice), animalName);
         if(okFoodChoice) {
             for (String key : foods.keySet()) {
-                if(foods.get(choice) == null){
+                if(foods.get(choiceAsString) == null){
                     System.out.println("You can't feed with what you don't have!");
                     return false;
                 } else if (choice.equals(key)) {

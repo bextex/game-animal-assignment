@@ -50,15 +50,12 @@ public class Store {
         } while(activeRound);
     }
 
-    public void buyFood(Player player) throws Exception {
+    public void buyFood(Player player) {
         System.out.println("---- WELCOME TO THE STORE FOR BUYING FOOD ---\n");
         do {
             String choice = foodSelection();
             System.out.println("Type in how many kilos of food you want.");
-            int foodInKg = 0;
-            try {
-                foodInKg = Integer.parseInt(Prompt.inputCheck(input.nextLine(), 1, 200));
-            } catch (Exception ignore) {}
+            int foodInKg = Integer.parseInt(Prompt.inputCheck(input.nextLine(), 1, 200));
             if(foodInKg <= 0){
                 System.out.println("Type in a number bigger than 0!");
             } else {
