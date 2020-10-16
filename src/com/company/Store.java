@@ -1,5 +1,7 @@
 package com.company;
 
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,9 +14,10 @@ public class Store {
 
     String animalName, gender;
     Animal animal;
-    Food food;
     Player playerToTradeWith;
     boolean activeRound = true;
+    boolean tradingPlayerHaveAnimals, playerHaveAnimals, anotherTurn;
+
 
     public void buyAnimal(Player player){
         System.out.println("---- WELCOME TO THE STORE FOR BUYING ANIMALS ----\n");
@@ -34,7 +37,7 @@ public class Store {
         do {
             Animal existAnimal = animalExist(player);
             if(existAnimal != null){
-                double cost = existAnimal.price * (existAnimal.health / 100);
+                double cost = existAnimal.price * (existAnimal.health / 100) - existAnimal.currentAge;
                 System.out.println("Selling price for " + existAnimal.name + " is: " + cost + " kr.");
                 boolean transactionOK = makeTheTransaction(player, cost, false);
                 if(transactionOK){
@@ -79,47 +82,81 @@ public class Store {
                     playerToTradeWith = p;
                 }
             }
-            System.out.println("ANIMAL NAME" + " ".repeat(10) + "BUYING/SELLING PRICE");
+            System.out.println("ANIMAL NAME AND THE BUYING/SELLING PRICE");
             if (player.animals.size() == 0) {
                 System.out.println(player.name + " don't own any animals.");
+                playerHaveAnimals = false;
             } else {
+                System.out.println(player.name + "s animals:");
                 for (Animal a : player.animals) {
-                    System.out.println("- " + a.name + " ".repeat(15) + (a.price - (a.health * a.currentAge)) + " kr");
+                    System.out.println("- " + a.name + ", " + (a.price * (a.health / 100) - a.currentAge) + " kr");
+                    playerHaveAnimals = true;
                 }
             }
             System.out.println();
             if (playerToTradeWith.animals.size() == 0) {
                 System.out.println(playerToTradeWith.name + " don't own any animals.");
+                tradingPlayerHaveAnimals = false;
             } else {
+                System.out.println(playerToTradeWith.name + "s animals:");
                 for (Animal a : playerToTradeWith.animals) {
-                    System.out.println("- " + a.name + " ".repeat(15) + (a.price - (a.health * a.currentAge)) + " kr");
+                    System.out.println("- " + a.name + ", " + (a.price * (a.health / 100) - a.currentAge) + " kr");
+                    tradingPlayerHaveAnimals = true;
                 }
             }
+            do{
             System.out.println("Do you want to sell[1], buy[2] or exit[3]?");
             String choice = Prompt.inputCheck(input.nextLine(), 1, 3);
             switch (choice) {
-                case "1", "sell" -> {animalExist(player);
-                    player.animals.remove(this.animal);
-                    playerToTradeWith.animals.add(this.animal);
-                    choice = "1";
+                case "1" -> {
+                    if (!playerHaveAnimals) {
+                        System.out.println("You don't have any animals to sell!");
+                        anotherTurn = true;
+                    } else {
+                        animalExist(player);
+                        if (playerToTradeWith.money < (animal.price * (animal.health / 100) - animal.currentAge)) {
+                            System.out.println("Yes you can force your opponent to buy, but they still have to have the money to pay for it.");
+                            System.out.println("And your opponent don't!");
+                            anotherTurn = true;
+                        } else {
+                            System.out.println("The cost for " + animal.name + " is " + (animal.price * (animal.health / 100) - animal.currentAge) + " kr.");
+                            player.animals.remove(this.animal);
+                            playerToTradeWith.animals.add(this.animal);
+                            double cost = (animal.price * (animal.health / 100) - animal.currentAge) > 0 ? (animal.price * (animal.health / 100) - animal.currentAge) : 0;
+                            System.out.println(player.name + ",");
+                            makeTheTransaction(player, cost, false);
+                            System.out.println(playerToTradeWith + ",");
+                            makeTheTransaction(playerToTradeWith, cost, true);
+                            anotherTurn = false;
+                        }
+                    }
                 }
-                case "2", "buy" -> {animalExist(playerToTradeWith);
-                    player.animals.add(this.animal);
-                    playerToTradeWith.animals.remove(this.animal);
-                    choice = "2";
+                case "2" -> {
+                    if (!tradingPlayerHaveAnimals) {
+                        System.out.println("Your opponent don't have any animals to sell!");
+                        anotherTurn = true;
+                    } else {
+                        animalExist(playerToTradeWith);
+                        if (player.money < (animal.price * (animal.health / 100) - animal.currentAge)) {
+                            System.out.println("You don't have any money!");
+                            anotherTurn = true;
+                        } else {
+                            System.out.println("The cost for " + animal.name + " is " + (animal.price * (animal.health / 100) - animal.currentAge) + " kr.");
+                            player.animals.add(this.animal);
+                            playerToTradeWith.animals.remove(this.animal);
+                            double cost = (animal.price * (animal.health / 100) - animal.currentAge) > 0 ? (animal.price * (animal.health / 100) - animal.currentAge) : 0;
+                            System.out.println(player.name + ",");
+                            makeTheTransaction(player, cost, true);
+                            System.out.println(playerToTradeWith.name + ",");
+                            makeTheTransaction(playerToTradeWith, cost, false);
+                            anotherTurn = false;
+                        }
+                    }
                 }
-                case "3", "exit" -> activeRound = false;
-                default -> System.out.println("Not a valid choice!");
-            }
-            double cost = (animal.price - (animal.health * animal.currentAge)) > 0 ? animal.price - (animal.health * animal.currentAge) : 0;
-            System.out.println("You can get " + cost + " for " + animal.name + ".");
-            if(choice.equals("1")){
-                System.out.println(player.name + ", "  + makeTheTransaction(player, cost, false));
-                System.out.println(playerToTradeWith.name + ", " + makeTheTransaction(playerToTradeWith, cost, true));
-            } else{
-                System.out.println(player.name + ", " + makeTheTransaction(player, cost, true));
-                System.out.println(playerToTradeWith.name + ", " + makeTheTransaction(playerToTradeWith, cost, false));
-            }
+                case "3" -> activeRound = false;
+                default -> throw new RuntimeException("Not a valid choice!");
+                }
+            } while(anotherTurn);
             activeRound = continueOrExit();
         } while (activeRound);
     }

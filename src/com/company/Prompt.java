@@ -16,7 +16,7 @@ public class Prompt {
     }
 
     static private String runAgain(int min, int max){
-        System.out.println("Invalid number, try again!");
+        System.out.println("Invalid input, try again!");
         return inputCheck(input.nextLine(), min, max);
     }
 
