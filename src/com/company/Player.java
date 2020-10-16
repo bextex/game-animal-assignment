@@ -71,9 +71,6 @@ public class Player {
                         System.out.println("Yummi! " + animalName + " liked that!\n");
                         return true;
                     }
-                } else{
-                    System.out.println("key: " + key + " value: " + foods.get(key)); //Need to get this to work
-                    return false;
                 }
             }
         } else {

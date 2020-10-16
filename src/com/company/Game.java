@@ -274,7 +274,7 @@ public class Game {
             }
             System.out.println(p.name + " has a total of " + p.money + " kr.");
         }
-        Collections.sort(winnerMoney);
+        Player.players.sort((Player a, Player b) -> a.money > b.money ? -1 : 1); // Doesn't work.
 
     }
 
