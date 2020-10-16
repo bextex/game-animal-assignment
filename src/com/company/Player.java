@@ -60,10 +60,7 @@ public class Player {
         boolean okFoodChoice = animalEatFood(convertStringToFood(choice), animalName);
         if(okFoodChoice) {
             for (String key : foods.keySet()) {
-                if(foods.get(choiceAsString) == null){
-                    System.out.println("You can't feed with what you don't have!");
-                    return false;
-                } else if (choiceAsString.equals(key)) {
+                if (choiceAsString.equals(key)) {
                     if (foodInKg > foods.get(key)) {
                         System.out.println("You don't have that much food.\n");
                         return false;
@@ -74,6 +71,9 @@ public class Player {
                         System.out.println("Yummi! " + animalName + " liked that!\n");
                         return true;
                     }
+                } else{
+                    System.out.println("key: " + key + " value: " + foods.get(key)); //Need to get this to work
+                    return false;
                 }
             }
         } else {
