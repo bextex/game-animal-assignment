@@ -218,10 +218,6 @@ public class Store {
         return choice;
     }
 
-    private boolean exit(){
-        return true;
-    }
-
     public boolean makeTheTransaction(Player player, double cost, boolean buy){
         if(buy && player.money < cost){
             System.out.println("You can't afford it!\n");
@@ -246,14 +242,4 @@ public class Store {
         }
         return continueRound;
     }
-
-    private void sleep(int ms){
-        try {
-            Thread.sleep(ms);
-        }
-        catch(Exception ignore){}
-    }
-
-
-
 }

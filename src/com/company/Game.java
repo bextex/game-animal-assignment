@@ -106,6 +106,15 @@ public class Game {
     public void feedAnimal(Player player){
         do {
             this.animal = store.animalExist(player);
+            if(animal == null){
+                System.out.println("This animal doesn't exist.");
+                activeRound = store.continueOrExit();
+                if(activeRound){
+                    feedAnimal(player);
+                } else {
+                    break;
+                }
+            }
             this.animalName = store.animalName;
             String foodSelection = Prompt.inputCheck(store.foodSelection(), 1, 3);
             System.out.println(animal.name + " has " + animal.health + " in health and only need " + ((100 - animal.health) / 10) + " kg to have full strength!");
@@ -164,7 +173,7 @@ public class Game {
             int negativeHealthValue = random.nextInt(negativeHealthValues.length);
             a.health = a.health - negativeHealthValues[negativeHealthValue];
             if(a.health <= 0){
-                causeOfDeathHealth = "NEGLECTED CARE";
+                setCauseOfDeath("NEGLECTED CARE");
             }
         }
     }
