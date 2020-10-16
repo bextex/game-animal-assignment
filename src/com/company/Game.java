@@ -55,11 +55,12 @@ public class Game {
                     default -> System.out.println("That's not an option.");
                 }
             }
-            if(numOfPlayers == 1){
+            if(numOfPlayers == 1 || Player.players.size() == 1){
                 round--;
                 numOfPlayers = Player.players.size();
+            } else {
+                numOfPlayers--;
             }
-            numOfPlayers--;
             if(round <= 0){
                 sleep(500);
                 System.out.println("---- THE GAME IS OVER ----\n");

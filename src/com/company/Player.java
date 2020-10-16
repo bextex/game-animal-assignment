@@ -63,7 +63,7 @@ public class Player {
                 if(foods.get(choiceAsString) == null){
                     System.out.println("You can't feed with what you don't have!");
                     return false;
-                } else if (choice.equals(key)) {
+                } else if (choiceAsString.equals(key)) {
                     if (foodInKg > foods.get(key)) {
                         System.out.println("You don't have that much food.\n");
                         return false;

@@ -216,12 +216,6 @@ public class Store {
     public String foodSelection(){
         System.out.println("Choose grass[1], corn[2] or meat[3].");
         String choice = Prompt.inputCheck(input.nextLine(), 1, 3);
-        switch (choice){
-            case "1", "grass" -> choice = "grass";
-            case "2", "corn" -> choice = "corn";
-            case "3", "meat" -> choice = "meat";
-            default -> System.out.println("Not a valid choice!");
-        }
         return choice;
     }
 
