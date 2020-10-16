@@ -79,14 +79,14 @@ public class Store {
                     playerToTradeWith = p;
                 }
             }
-            System.out.println("ANIMAL NAME AND THE BUYING/SELLING PRICE");
+            System.out.println("---- WELCOME TO THE TRADING PLACE ---\n");
             if (player.animals.size() == 0) {
                 System.out.println(player.name + " don't own any animals.");
                 playerHaveAnimals = false;
             } else {
                 System.out.println(player.name + "s animals:");
                 for (Animal a : player.animals) {
-                    System.out.println("- " + a.name + ", " + (a.price * (a.health / 100) - a.currentAge) + " kr");
+                    System.out.println("- " + a.name + ", " + (int)(a.price * (a.health / 100) - a.currentAge) + " kr");
                     playerHaveAnimals = true;
                 }
             }
@@ -97,12 +97,12 @@ public class Store {
             } else {
                 System.out.println(playerToTradeWith.name + "s animals:");
                 for (Animal a : playerToTradeWith.animals) {
-                    System.out.println("- " + a.name + ", " + (a.price * (a.health / 100) - a.currentAge) + " kr");
+                    System.out.println("- " + a.name + ", " + (int)(a.price * (a.health / 100) - a.currentAge) + " kr");
                     tradingPlayerHaveAnimals = true;
                 }
             }
             do{
-            System.out.println("Do you want to sell[1], buy[2] or exit[3]?");
+            System.out.println("\nDo you want to sell[1], buy[2] or exit[3]?");
             String choice = Prompt.inputCheck(input.nextLine(), 1, 3);
             switch (choice) {
                 case "1" -> {
@@ -116,13 +116,12 @@ public class Store {
                             System.out.println("And your opponent don't!");
                             anotherTurn = true;
                         } else {
-                            System.out.println("The cost for " + animal.name + " is " + (animal.price * (animal.health / 100) - animal.currentAge) + " kr.");
                             player.animals.remove(this.animal);
                             playerToTradeWith.animals.add(this.animal);
                             double cost = (animal.price * (animal.health / 100) - animal.currentAge) > 0 ? (animal.price * (animal.health / 100) - animal.currentAge) : 0;
                             System.out.println(player.name + ",");
                             makeTheTransaction(player, cost, false);
-                            System.out.println(playerToTradeWith + ",");
+                            System.out.println(playerToTradeWith.name + ",");
                             makeTheTransaction(playerToTradeWith, cost, true);
                             anotherTurn = false;
                         }
