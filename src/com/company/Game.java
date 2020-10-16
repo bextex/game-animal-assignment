@@ -11,8 +11,8 @@ public class Game {
     Animal animal, animal2;
     String animalName, causeOfDeath, causeOfDeathHealth;
     boolean activeRound = true;
-    int round = random.nextInt(25) + 5;
     boolean firstRound = true;
+    int round;
     int n = 1;
     int numOfPlayers;
 
@@ -21,6 +21,7 @@ public class Game {
         System.out.println("Type in number of players (1-4)");
         String choice = Prompt.inputCheck(input.nextLine(), 1, 4);
         setPlayers(choice);
+        chooseRound();
         numOfPlayers = Player.players.size();
         do {
             sleep(500);
@@ -65,6 +66,18 @@ public class Game {
                 summarizeBelongings();
             }
         } while(round > 0);
+    }
+
+    public void chooseRound(){
+        System.out.println("Do you wanna pick a number of rounds[1] or let it be a secret[2]?");
+        String choice = Prompt.inputCheck(input.nextLine(), 1, 2);
+        if(choice.equals("1")){
+            System.out.println("How many rounds do you want to play (5-30)?");
+            String numOfRounds = Prompt.inputCheck(input.nextLine(), 5,30);
+            this.round = Integer.parseInt(numOfRounds);
+        } else{
+            this.round = random.nextInt(25) + 5;
+        }
     }
 
     public Player currentPlayer(){
