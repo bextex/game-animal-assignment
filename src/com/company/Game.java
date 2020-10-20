@@ -32,7 +32,8 @@ public class Game {
             playersHolding(player);
             System.out.println("------------------------------------");
             menu();
-            String nextStep = Prompt.inputCheck(input.nextLine(), 1, 7);
+            String nextStep = (Player.players.size() == 1 ? Prompt.inputCheck(input.nextLine(), 1, 6)
+                    : Prompt.inputCheck(input.nextLine(), 1, 7));
             switch (nextStep) {
                 case "1" -> store.buyAnimal(player);
                 case "2" -> store.buyFood(player);
@@ -44,13 +45,10 @@ public class Game {
                 switch (nextStep){
                     case "6" -> store.sellAnimalToPlayer(player);
                     case "7" -> activeRound = false;
-                    default -> System.out.println("That's not an option.");
                 }
             } else {
                 if ("6".equals(nextStep)) {
                     activeRound = false;
-                } else {
-                    System.out.println("That's not an option.");
                 }
             }
             if(numOfPlayers == 1 || Player.players.size() == 1){
