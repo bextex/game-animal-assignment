@@ -158,7 +158,7 @@ public class Store {
                         }
                     }
                 }
-                case "3" -> activeRound = false;
+                case "3" -> {return;}
                 default -> throw new RuntimeException("Not a valid choice!");
                 }
             } while(anotherTurn);
