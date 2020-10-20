@@ -9,6 +9,7 @@ public class Player {
     ArrayList<Animal> animals = new ArrayList<>();
     LinkedHashMap<String, Integer> foods = new LinkedHashMap<>();
     Food food;
+    String animalName;
 
     public String name, choiceAsString;
     public int money = 1000;
@@ -59,22 +60,22 @@ public class Player {
         }
         boolean okFoodChoice = animalEatFood(convertStringToFood(choice), animalName);
         if(okFoodChoice) {
-            for (String key : foods.keySet()) {
-                if (choiceAsString.equals(key)) {
-                    if (foodInKg > foods.get(key)) {
-                        System.out.println("You don't have that much food.\n");
-                        return false;
-                    } else {
-                        int value = foods.get(key);
-                        value = value - foodInKg;
-                        foods.put(key, value);
-                        System.out.println("Yummi! " + animalName + " liked that!\n");
-                        return true;
-                    }
+            if (foods.containsKey(choiceAsString)) {
+                if (foodInKg > foods.get(choiceAsString)) {
+                    System.out.println("You don't have that much food.\n");
+                    return false;
+                } else {
+                    int value = foods.get(choiceAsString);
+                    value = value - foodInKg;
+                    foods.put(choiceAsString, value);
+                    System.out.println("Yummi! That tasted good!\n");
+                    return true;
                 }
+            } else {
+                System.out.println("You don't own any " + choiceAsString.toLowerCase() + ".");
             }
         } else {
-            System.out.println("URK! " + animalName + " doesn't like this kind of food!\n");
+            System.out.println("URK! Stop feeding me with this shit.\n");
         }
         return false;
     }
