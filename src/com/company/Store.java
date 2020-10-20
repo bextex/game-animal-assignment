@@ -84,8 +84,8 @@ public class Store {
                     playerToTradeWith = p;
                 }
             }
-            if(playerToTradeWith == null){
-                System.out.println("This player don't exist.");
+            if(playerToTradeWith == null || playerToTradeWith == player){
+                System.out.println("You can't trade with " + (playerToTradeWith == null ? "a non-existing player." : "yourself."));
                 return;
             }
             System.out.println("---- WELCOME TO THE TRADING PLACE ----\n");
