@@ -237,10 +237,10 @@ public class Store {
     public boolean continueOrExit(){
         System.out.println("Do you want to continue[1] or exit[2]?");
         String choice = Prompt.inputCheck(input.nextLine().toLowerCase(), 1, 2);
-        boolean continueRound;
+        boolean continueRound = false;
         switch (choice){
-            case "1", "continue" -> continueRound = true;
-            default -> continueRound = false;
+            case "1" -> continueRound = true;
+            case "2" -> continueRound = false;
         }
         return continueRound;
     }
