@@ -13,6 +13,7 @@ public class Store {
     Random random = new Random();
 
     String animalName, gender;
+    Animal animalForPrice;
     Animal animal;
     Player playerToTradeWith;
     boolean activeRound = true;
@@ -173,6 +174,7 @@ public class Store {
         String choice;
         String gender;
         if(!mating) {
+            System.out.println("Cow (100 kr) Fish (50 kr) Horse (120 kr) Rabbit (70 kr) Ostrich (150 kr)");
             System.out.println("Choose cow[1], fish[2], horse[3], rabbit[4] or ostrich[5].");
             choice = Prompt.inputCheck(input.nextLine(), 1, 5);
             gender = genderOfAnimal(true);
