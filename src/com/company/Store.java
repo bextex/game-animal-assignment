@@ -84,6 +84,10 @@ public class Store {
                     playerToTradeWith = p;
                 }
             }
+            if(playerToTradeWith == null){
+                System.out.println("This player don't exist.");
+                return;
+            }
             System.out.println("---- WELCOME TO THE TRADING PLACE ----\n");
             if (player.animals.size() == 0) {
                 System.out.println(player.name + " don't own any animals.");
