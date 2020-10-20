@@ -183,9 +183,7 @@ public class Game {
             if(chanceOfSicknessValue == 0){
                 System.out.println(a.name + " has gotten sick! Do you wanna pay for veterinary cost " + getVeterinaryCost(a) + " kr,"
                         + " to try to save " + (a.gender.equals("female") ? "her" : "him") + "?");
-                System.out.println("Yes[1] / No[2]?");
-                String helpingOut = Prompt.inputCheck(input.nextLine().toLowerCase(), 1,2);
-                boolean wantsToHelp = helpingOut.equals("1") || helpingOut.contains("yes") || helpingOut.equals("y");
+                boolean wantsToHelp = yesOrNo();
                 if(wantsToHelp){
                     double payForVeterinary = veterinaryCost(a);
                     boolean moneyForVeterinary = store.makeTheTransaction(player, payForVeterinary, true);
@@ -301,4 +299,9 @@ public class Game {
         this.causeOfDeath = death;
     }
 
+    private boolean yesOrNo(){
+        System.out.println("Yes[1] / No[2]?");
+        String helpingOut = Prompt.inputCheck(input.nextLine().toLowerCase(), 1,2);
+        return helpingOut.equals("1");
+    }
 }

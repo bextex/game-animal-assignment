@@ -215,6 +215,7 @@ public class Store {
     }
 
     public String foodSelection(){
+        System.out.println("Grass 10 kr/kg | Corn 12 kr/kg | Meat 15 kr/kg\n");
         System.out.println("Choose grass[1], corn[2] or meat[3].");
         String choice = Prompt.inputCheck(input.nextLine(), 1, 3);
         return choice;
