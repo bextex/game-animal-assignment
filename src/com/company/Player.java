@@ -128,6 +128,10 @@ public class Player {
         System.out.println("So you want to try mate your animals. Not everyone succeeds...but good luck!");
         this.animal = store.animalExist(player);
         this.animal2 = store.animalExist(player);
+        if(this.animal == null || this.animal2 == null){
+            System.out.println("Hmm... you're trying to mate with animals you don't have, this cost you your round...");
+            return;
+        }
         if(!animal.getClass().equals(animal2.getClass())){
             System.out.println("Animals with different races cannot mate...");
             return;
