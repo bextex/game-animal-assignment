@@ -51,7 +51,7 @@ public class Store {
     }
 
     public void buyFood(Player player) {
-        System.out.println("---- WELCOME TO THE STORE FOR BUYING FOOD ---\n");
+        System.out.println("---- WELCOME TO THE STORE FOR BUYING FOOD ----\n");
         do {
             String choice = foodSelection();
             System.out.println("Type in how many kilos of food you want.");
@@ -79,7 +79,7 @@ public class Store {
                     playerToTradeWith = p;
                 }
             }
-            System.out.println("---- WELCOME TO THE TRADING PLACE ---\n");
+            System.out.println("---- WELCOME TO THE TRADING PLACE ----\n");
             if (player.animals.size() == 0) {
                 System.out.println(player.name + " don't own any animals.");
                 playerHaveAnimals = false;

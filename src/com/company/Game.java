@@ -16,8 +16,8 @@ public class Game {
     int n = 1;
     int numOfPlayers;
 
-    public Game() throws Exception {
-        System.out.println("Welcome to the Game - PiggyBank!");
+    public Game() {
+        getGameInfo();
         System.out.println("Type in number of players (1-4)");
         String choice = Prompt.inputCheck(input.nextLine(), 1, 4);
         setPlayers(choice);
@@ -33,26 +33,24 @@ public class Game {
             System.out.println("------------------------------------");
             menu();
             String nextStep = Prompt.inputCheck(input.nextLine(), 1, 7);
+            switch (nextStep) {
+                case "1" -> store.buyAnimal(player);
+                case "2" -> store.buyFood(player);
+                case "3" -> feedAnimal(player);
+                case "4" -> mateAnimal(player);
+                case "5" -> store.sellAnimal(player);
+            }
             if(Player.players.size() >= 2) {
-                switch (nextStep) {
-                    case "1" -> store.buyAnimal(player);
-                    case "2" -> store.buyFood(player);
-                    case "3" -> feedAnimal(player);
-                    case "4" -> mateAnimal(player);
-                    case "5" -> store.sellAnimal(player);
+                switch (nextStep){
                     case "6" -> store.sellAnimalToPlayer(player);
                     case "7" -> activeRound = false;
                     default -> System.out.println("That's not an option.");
                 }
             } else {
-                switch (nextStep) {
-                    case "1" -> store.buyAnimal(player);
-                    case "2" -> store.buyFood(player);
-                    case "3" -> feedAnimal(player);
-                    case "4" -> mateAnimal(player);
-                    case "5" -> store.sellAnimal(player);
-                    case "6" -> activeRound = false;
-                    default -> System.out.println("That's not an option.");
+                if ("6".equals(nextStep)) {
+                    activeRound = false;
+                } else {
+                    System.out.println("That's not an option.");
                 }
             }
             if(numOfPlayers == 1 || Player.players.size() == 1){
@@ -276,6 +274,20 @@ public class Game {
         }
         Player.players.sort((Player a, Player b) -> a.money > b.money ? -1 : 1); // Doesn't work.
 
+    }
+
+    private void getGameInfo(){
+        System.out.println("\n---- WELCOME TO THE GAME PIGGYBANK ---- \n");
+        System.out.println("You can play by yourself or with up to three friends. " +
+                "\nThe players can choose to pick the number of rounds playing or get a secret number." +
+                "\nYou will buy animals and food, feed your animals so they don't die, mate your animals to get little babies." +
+                "\nAnd if you're more than one player, you can trade animals with your fellow players." +
+                "\nEach player can pick between 6 choices of actions, but will only be able to make one each turn." +
+                "\nAnd they can do so as long as they have money or they can choose to exit." +
+                "\nWatch out for unexpected sickness and be aware of your animals health and age." +
+                "\nThe player with the most money after the game ends will be the winner. Good luck and make smart choices!");
+        System.out.println("\nPRESS ENTER TO START");
+        input.nextLine();
     }
 
     private void sleep(int ms){
