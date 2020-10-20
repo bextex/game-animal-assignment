@@ -21,12 +21,12 @@ public class Game {
         System.out.println("Type in number of players (1-4)");
         String choice = Prompt.inputCheck(input.nextLine(), 1, 4);
         setPlayers(choice);
-        chooseRound();
+        boolean secret = chooseRound();
         numOfPlayers = Player.players.size();
         do {
             sleep(500);
             currentPlayer();
-            System.out.println(round + " rounds left.");
+            System.out.println(round == 1 ? "Last round!" : (secret ? "Secret number of" : round) + " rounds left.");
             System.out.println();
             System.out.println(player.name + " is your turn!");
             playersHolding(player);
@@ -65,16 +65,18 @@ public class Game {
         } while(round > 0);
     }
 
-    public void chooseRound(){
+    public boolean chooseRound(){
         System.out.println("Do you wanna pick a number of rounds[1] or let it be a secret[2]?");
         String choice = Prompt.inputCheck(input.nextLine(), 1, 2);
         if(choice.equals("1")){
             System.out.println("How many rounds do you want to play (5-30)?");
             String numOfRounds = Prompt.inputCheck(input.nextLine(), 5,30);
             this.round = Integer.parseInt(numOfRounds);
+            return false;
         } else{
             this.round = random.nextInt(25) + 5;
         }
+        return true;
     }
 
     public Player currentPlayer(){
