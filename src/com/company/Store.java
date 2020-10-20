@@ -37,12 +37,15 @@ public class Store {
         System.out.println("---- WELCOME TO THE STORE FOR SELLING ANIMALS ----\n");
         do {
             Animal existAnimal = animalExist(player);
-            if(existAnimal != null){
+            if(existAnimal != null) {
                 double cost = existAnimal.price * (existAnimal.health / 100) - existAnimal.currentAge;
-                System.out.println("Selling price for " + existAnimal.name + " is: " + cost + " kr.");
-                boolean transactionOK = makeTheTransaction(player, cost, false);
-                if(transactionOK){
-                    player.animals.remove(existAnimal);
+                System.out.println("Selling price for " + existAnimal.name + " is: " + (int)cost + " kr.");
+                boolean selling = yesOrNo();
+                if (selling) {
+                    boolean transactionOK = makeTheTransaction(player, cost, false);
+                    if (transactionOK) {
+                        player.animals.remove(existAnimal);
+                    }
                 }
             } else {
                 System.out.println("You can't sell an animal you don't own.\n");
@@ -54,6 +57,7 @@ public class Store {
     public void buyFood(Player player) {
         System.out.println("---- WELCOME TO THE STORE FOR BUYING FOOD ----\n");
         do {
+            System.out.println("Grass 10 kr/kg | Corn 12 kr/kg | Meat 15 kr/kg\n");
             String choice = foodSelection();
             System.out.println("Type in how many kilos of food you want.");
             int foodInKg = Integer.parseInt(Prompt.inputCheck(input.nextLine(), 1, 200));
@@ -215,7 +219,6 @@ public class Store {
     }
 
     public String foodSelection(){
-        System.out.println("Grass 10 kr/kg | Corn 12 kr/kg | Meat 15 kr/kg\n");
         System.out.println("Choose grass[1], corn[2] or meat[3].");
         String choice = Prompt.inputCheck(input.nextLine(), 1, 3);
         return choice;
@@ -245,4 +248,11 @@ public class Store {
         }
         return continueRound;
     }
+
+    public boolean yesOrNo(){
+        System.out.println("Yes[1] / No[2]?");
+        String helpingOut = Prompt.inputCheck(input.nextLine().toLowerCase(), 1,2);
+        return helpingOut.equals("1");
+    }
+
 }
