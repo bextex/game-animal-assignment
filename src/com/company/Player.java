@@ -15,7 +15,7 @@ public class Player {
     Food food;
     Animal animal, animal2;
     boolean activeRound;
-    public String name, choiceAsString, animalName, causeOfDeath;
+    public String name, choiceAsString, animalName, causeOfDeath = "";
     public int money = 1000;
 
     public Player(String name) {
@@ -180,6 +180,9 @@ public class Player {
     public void sickness(Player player){
         int[] chanceOfSicknessValues = new int[5];
         for(Animal a : player.animals){
+            if(a.currentAge >= a.maxAge){
+                continue;
+            }
             int chanceOfSicknessValue = random.nextInt(chanceOfSicknessValues.length);
             if(chanceOfSicknessValue == 0){
                 System.out.println(a.name + " has gotten sick! Do you wanna pay for veterinary cost " + getVeterinaryCost(a) + " kr,"
@@ -232,5 +235,7 @@ public class Player {
     private void setCauseOfDeath(String death){
         this.causeOfDeath = death;
     }
+
+
 }
 

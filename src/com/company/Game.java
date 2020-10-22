@@ -5,10 +5,8 @@ import java.util.*;
 public class Game {
     Random random = new Random();
     Scanner input = new Scanner(System.in);
-    ArrayList<Integer> winnerMoney = new ArrayList<>();
     Store store = new Store();
     Player player;
-    String causeOfDeath;
     boolean activeRound = true, firstRound = true;
     int round, numOfPlayers;
     int n = 1;
@@ -109,7 +107,7 @@ public class Game {
         player.sickness(player);
         for(Animal a : player.animals){
             System.out.printf("%s - %s %s - %s\n", a.getClass().getSimpleName(), a.name, (a.gender.equals("female") ? "(f)" : "(m)"),
-                    (a.health <= 0 || a.currentAge >= a.maxAge ? ("HAS DIED OF " + causeOfDeath + "!!! x_x") : "(age: " + a.currentAge + ", " + "health: " + (int) a.health + ")"));
+                    (a.health <= 0 || a.currentAge >= a.maxAge ? ("HAS DIED OF " + player.causeOfDeath + "!!! x_x") : "(age: " + a.currentAge + ", " + "health: " + (int) a.health + ")"));
         }
         System.out.println();
         player.animals.removeIf(a -> a.health <= 0 || a.currentAge >= a.maxAge);
@@ -137,11 +135,9 @@ public class Game {
         for(Player p : Player.players){
             for(Animal a : p.animals){
                 p.money = (int) (p.money + (a.price * (a.health / 100)));
-                winnerMoney.add(p.money);
             }
             System.out.println(p.name + " has a total of " + p.money + " kr.");
         }
-        Player.players.sort((Player a, Player b) -> a.money > b.money ? -1 : 1); // Doesn't work.
     }
 
     private void getGameInfo(){
