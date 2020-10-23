@@ -1,9 +1,5 @@
 package com.company;
 
-import jdk.swing.interop.SwingInterOpUtils;
-
-import java.security.spec.ECField;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -13,7 +9,6 @@ public class Store {
     Random random = new Random();
 
     String animalName, gender;
-    Animal animalForPrice;
     Animal animal;
     Player playerToTradeWith;
     boolean activeRound = true;
@@ -77,6 +72,7 @@ public class Store {
 
     public void sellAnimalToPlayer(Player player) {
         do {
+            playerToTradeWith = null;
             System.out.println("Which player do you wanna trade with?");
             String playerName = input.nextLine().toLowerCase();
             for (Player p : Player.players) {
