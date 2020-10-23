@@ -167,18 +167,19 @@ public class Player {
         }
     }
 
-    public void healthDecreasing(Player player){
+    public boolean healthDecreasing(Player player){
         int[] negativeHealthValues = {10, 20, 30};
         for(Animal a : player.animals){
             int negativeHealthValue = random.nextInt(negativeHealthValues.length);
             a.health = a.health - negativeHealthValues[negativeHealthValue];
             if(a.health <= 0){
-                setCauseOfDeath("NEGLECTED CARE");
+                return true;
             }
         }
+        return false;
     }
 
-    public void sickness(Player player){
+    public boolean sickness(Player player){
         int[] chanceOfSicknessValues = new int[5];
         for(Animal a : player.animals){
             if(a.currentAge >= a.maxAge){
@@ -196,27 +197,29 @@ public class Player {
                         boolean saveLife = veterinary();
                         if(!saveLife){
                             a.health = 0;
-                            setCauseOfDeath("SICKNESS");
+                            return true;
                         }
                     } else {
                         a.health = 0;
-                        setCauseOfDeath("SICKNESS");
+                        return true;
                     }
                 } else {
                     a.health = 0;
-                    setCauseOfDeath("SICKNESS");
+                    return true;
                 }
             }
         }
+        return false;
     }
 
-    public void animalAging(Player player) {
+    public boolean animalAging(Player player) {
         for (Animal a : player.animals) {
             a.currentAge = a.currentAge + (a.maxAge < 10 ? 1 : (a.maxAge / 10));
             if(a.currentAge >= a.maxAge){
-                setCauseOfDeath("OLD AGE");
+                return true;
             }
         }
+        return false;
     }
 
     public boolean veterinary(){

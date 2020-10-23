@@ -102,12 +102,13 @@ public class Game {
         System.out.println("------------------------------------");
         System.out.println("Money: " + player.money + " kr\n");
         System.out.println("Animals:" + (player.animals.size() == 0 ? " You don't own any animals." : ""));
-        player.healthDecreasing(player);
-        player.animalAging(player);
-        player.sickness(player);
+        boolean deadOfHealth = player.healthDecreasing(player);
+        boolean deadOfAging = player.animalAging(player);
+        boolean deadOfSickness = player.sickness(player);
+        String causeOfDeath = deadOfHealth ? "NEGLECTED CARE" : deadOfAging ? "OLD AGE" : deadOfSickness ? "SICKNESS" : "";
         for(Animal a : player.animals){
             System.out.printf("%s - %s %s - %s\n", a.getClass().getSimpleName(), a.name, (a.gender.equals("female") ? "(f)" : "(m)"),
-                    (a.health <= 0 || a.currentAge >= a.maxAge ? ("HAS DIED OF " + player.causeOfDeath + "!!! x_x") : "(age: " + a.currentAge + ", " + "health: " + (int) a.health + ")"));
+                    (a.health <= 0 || a.currentAge >= a.maxAge ? ("HAS DIED OF " + causeOfDeath + "!!! x_x") : "(age: " + a.currentAge + ", " + "health: " + (int) a.health + ")"));
         }
         System.out.println();
         player.animals.removeIf(a -> a.health <= 0 || a.currentAge >= a.maxAge);
