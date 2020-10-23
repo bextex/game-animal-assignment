@@ -79,7 +79,7 @@ public class Player {
                 System.out.println("You don't own any " + choiceAsString.toLowerCase() + ".");
             }
         } else {
-            System.out.println("URK! Stop feeding me with this shit.\n");
+            System.out.println("URK! I won't eat this.\n");
         }
         return false;
     }
