@@ -132,11 +132,16 @@ public class Game {
     }
 
     public void summarizeBelongings(){
-        for(Player p : Player.players){
+        int place = 1;
+        for(Player p : Player.players){ // Summarize all money first
             for(Animal a : p.animals){
                 p.money = (int) (p.money + (a.price * (a.health / 100)));
             }
-            System.out.println(p.name + " has a total of " + p.money + " kr.");
+        }
+        Player.players.sort((Player a, Player b) -> a.money > b.money ? -1 : 1); // Sort the list acc to most money
+        for(Player p : Player.players){ // Present the winners in right order
+            System.out.println(place + (place == 1 ? "st" : place == 2 ? "nd" : place == 3 ? "d" : "th") + " place: " + p.name + " has a total of " + p.money + " kr.");
+            place++;
         }
     }
 
