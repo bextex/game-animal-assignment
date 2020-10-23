@@ -129,7 +129,8 @@ public class Player {
         this.animal = store.animalExist(player);
         this.animal2 = store.animalExist(player);
         if(this.animal == null || this.animal2 == null){
-            System.out.println("Hmm... you're trying to mate with animals you don't have, this cost you your round...");
+            System.out.println("Hmm... you're trying to mate with animals you don't have, " +
+                    "remember your animals next time so you don't waste your round...");
             return;
         }
         if(!animal.getClass().equals(animal2.getClass())){

@@ -85,7 +85,8 @@ public class Store {
                 }
             }
             if(playerToTradeWith == null || playerToTradeWith == player){
-                System.out.println("You can't trade with " + (playerToTradeWith == null ? "a non-existing player." : "yourself."));
+                System.out.println("You can't trade with " + (playerToTradeWith == null ? "a non-existing player." : "yourself.")
+                        + "This will cost you your turn. Keep in mind your fellow players names next time.");
                 return;
             }
             System.out.println("---- WELCOME TO THE TRADING PLACE ----\n");
